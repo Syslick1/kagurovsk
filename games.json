@@ -1,0 +1,59 @@
+{
+  "senran": [
+    {
+      "title": "Senran Kagura Burst Re:Newal",
+      "img": "catalog/burst_renewal.webp",
+      "desc": "Ремейк оригинальной игры, рассказывающий историю противостояния академий Ханзо и Хэбидзё. Динамичные бои, море фансервиса и отличная графика.",
+      "authors": "• Переводчики: <b>Syslick, Maticks, exDemonius, vebsort</b><br>• Редакторы: <b>Maticks, Dead Veteran, Syslick</b><br>• Текстуры, шрифты, титры в конце игры: <b>Syslick</b><br>• Помощь в тех. части и инструментарий: <b>exDemonius, SileNTViP</b><br>• Помощь с созданием инсталлятора: <b>Hocorog.Evgeniy</b><br><br>Отдельная благодарность:<br>• Buckwheat software<br>• NepTeam<br>• Zone of games",
+      "install": "ВАЖНО! УСТАНАВЛИВАЙТЕ РУСИФИКАТОР НА АБСОЛЮТНО ЧИСТУЮ ОРИГИНАЛЬНУЮ ВЕРСИЮ ИГРЫ БЕЗ ВСЯКИХ МОДИФИКАЦИЙ!<br>1 способ: Запустите SKBRN .exe и укажите папку где установлена игра.<br>2 способ: Переместите файл SKBRN .exe в корень папки игры и запустите его.<br>3 способ (самый отчаянный): Укажите на каком диске установлена игра и дождитесь когда программа сама найдёт игру.",
+      "screenshots": [
+        "screenshot/burst_scr1.webp",
+        "screenshot/burst_scr2.webp",
+        "screenshot/burst_scr3.webp",
+        "screenshot/burst_scr4.webp",
+        "screenshot/burst_scr0.webp"
+      ],
+      "links": [
+        { "text": "Скачать с ZOG", "url": "https://www.zoneofgames.ru/games/senran_kagura_burst_renewal/files/7889.html", "icon": "catalog/zog_icon.webp", "color": "#4b4b4b" },
+        { "text": "Google Drive", "url": "https://drive.google.com/file/d/170mu3g7T0vluOKvYbf4W64Gi5SXym-4i/view", "icon": "catalog/gdrive_icon.webp", "color": "#34a853" },
+        { "text": "Яндекс.Диск", "url": "https://disk.yandex.ru/d/rs1s7LWNhvvlQQ", "icon": "catalog/ydisk_icon.webp", "color": "#ffcc00" },
+        { "text": "Руководство в Steam", "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=2798205863", "icon": "catalog/steam_icon.webp", "color": "linear-gradient(45deg, #171a21, #2a475e)" }
+      ]
+    },
+    { "title": "Senran Kagura Estival Versus", "img": "catalog/estival_versus.webp", "link": "#" },
+    { "title": "Neptunia x SENRAN KAGURA: Ninja Wars", "img": "catalog/ninja_wars.webp", "link": "#" }
+  ],
+  "free": [
+    { "title": "[18+] Third Crisis", "img": "catalog/third_crisis.webp", "link": "#" },
+    { "title": "Shadow Detective", "img": "catalog/shadow_detective.webp", "link": "#" },
+    { "title": "[18+] Can I get an Iced Coffee with Breastmilk!?", "img": "catalog/iced_coffee.webp", "link": "#" }
+  ],
+  "short": [
+    { "title": "[18+] It's the right spot! I did it for free with a busty JK", "img": "catalog/right_spot.webp", "link": "#" },
+    { "title": "[18+] Kunoichi Sekiren (赤蓮忍法帖) (0.1.0 версия)", "img": "catalog/kunoichi_sekiren.webp", "link": "#" },
+    { "title": "[18+] Screamer Creamer", "img": "catalog/screamer_creamer.webp", "link": "#" },
+    { "title": "[18+] Zensex Zone Zero: Lumina Story", "img": "catalog/zzz_lumina.webp", "link": "#" }
+  ],
+  "rep": [
+    { "title": "[18+] Glory and Miserable Survivors DX", "img": "catalog/glory_survivors.webp", "link": "https://boosty.to/syslickone/posts/51a12f9f-21d1-4adc-86d4-33a7ab195c68?share=post_link" }
+  ],
+  "mid": [
+    { "title": "⚠️Скоро⚠️", "img": "catalog/mid_game.webp", "link": "#" }
+  ],
+  "big": [
+    { "title": "⚠️Скоро⚠️", "img": "catalog/big_game.webp", "link": "#" }
+  ],
+  "manga": [
+    { "title": "Случай на пляже", "img": "catalog/manga0.webp", "link": "https://boosty.to/syslickone/posts/0745e6ab-a9f1-438b-ac71-2fcb6212fe3c" }
+  ],
+  "asmr": [
+    { "title": "⚠️Скоро⚠️", "img": "catalog/asmr_example.webp", "link": "#" }
+  ],
+  "games": [
+    { "title": "Пример моей игры", "img": "catalog/my_game_example.webp", "link": "#" }
+  ],
+  "arts": [
+    { "title": "Хикагэн", "img": "catalog/art0.webp", "link": "https://boosty.to/syslickone/posts/e80b056c-e843-4e2c-b3c1-e0d96ec91ee9?share=post_link" },
+    { "title": "Арт от fxtsr", "img": "catalog/art_example.webp", "link": "https://boosty.to/syslickone/posts/eb651a70-5543-4dd2-9b39-2cace94dbe3d" }
+  ]
+}

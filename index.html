@@ -6,516 +6,115 @@
     <title>Кагуровск</title>
     
     <link rel="icon" type="image/webp" href="catalog/favicon.webp">
-
-    <style>
-        /* Базовые настройки и темный фон */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #200E26;
-            
-            /* ФОНОВАЯ КАРТИНКА С ЗАТЕМНЕНИЕМ */
-            background-image: linear-gradient(rgba(32, 14, 38, 0.85), rgba(32, 14, 38, 0.85)), url('catalog/wallpaper.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh; /* Чтобы подвал всегда был в самом низу, даже если мало контента */
-            overflow-x: hidden; 
-        }
-
-        /* АНИМАЦИИ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Шапка сайта */
-        header {
-            text-align: center;
-            padding: 40px 20px 20px 20px;
-            max-width: 800px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .logo {
-            width: 200px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .about {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #dddddd;
-        }
-
-        .links a {
-            display: inline-block;
-            margin: 5px 10px;
-            padding: 10px 20px;
-            background-color: #0088cc; 
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: opacity 0.2s;
-        }
-        
-        .links a:hover {
-            opacity: 0.8;
-        }
-
-        .links a.boosty { background-color: #f15f2c; }
-        .links a.discord { background-color: #5865F2; } 
-
-        /* Контейнер для всего контента */
-        main {
-            width: 100%;
-            max-width: 1200px;
-            padding: 0 20px 40px 20px;
-            box-sizing: border-box;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            flex: 1; /* Позволяет контенту растягиваться, отодвигая подвал вниз */
-        }
-
-        /* Навигация каталогов (Стрелки и Заголовок) */
-        .catalog-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0 40px 0;
-            width: 100%;
-        }
-
-        .nav-arrow {
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            user-select: none;
-        }
-
-        .nav-arrow:hover {
-            transform: scale(1.15);
-        }
-
-        .nav-arrow:active {
-            transform: scale(0.9);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #f15f2c;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            border-bottom: 2px dashed #553b60;
-            padding-bottom: 10px;
-            min-width: 280px; 
-        }
-
-        /* Анимация переключения каталогов */
-        .catalog-section {
-            display: none; 
-            width: 100%;
-        }
-
-        .catalog-section.active-next {
-            display: block;
-            animation: slideInRight 0.4s ease forwards;
-        }
-
-        .catalog-section.active-prev {
-            display: block;
-            animation: slideInLeft 0.4s ease forwards;
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Категории внутри каталогов */
-        .category {
-            margin-bottom: 50px;
-        }
-
-        .category h2 {
-            text-align: center;
-            border-bottom: 1px solid #553b60;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            color: #f1f1f1;
-        }
-
-        /* Сетка для карточек */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-        }
-
-        .game-card {
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.2s;
-        }
-
-        .game-card:hover {
-            transform: scale(1.05);
-        }
-
-        .game-card img {
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
-        .game-card h3 {
-            font-size: 0.95em;
-            margin: 10px 0 0 0;
-            line-height: 1.2;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-        }
-
-        /* Панель Debug (Админка) */
-        #debug-panel {
-            display: none;
-            background-color: #ffeaa7;
-            color: #333;
-            padding: 20px;
-            width: 100%;
-            text-align: center;
-            border-bottom: 2px solid #fdcb6e;
-        }
-
-        #debug-panel input, #debug-panel select, #debug-panel button {
-            padding: 10px;
-            margin: 5px;
-            font-size: 1em;
-        }
-
-        /* ПОДВАЛ (FOOTER) */
-        footer {
-            width: 100%;
-            text-align: center;
-            padding: 25px 20px;
-            background-color: rgba(18, 8, 22, 0.85); /* Чуть темнее фона для контраста */
-            color: #888888;
-            font-size: 0.95em;
-            border-top: 1px solid #553b60;
-            margin-top: auto; /* Всегда прижимает подвал к самому низу */
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.4s forwards; /* Появляется самым последним */
-        }
-
-        /* КНОПКА "НАВЕРХ" */
-        #scrollToTopBtn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 99;
-            background-color: #f15f2c; /* Оранжевый цвет в стиле Boosty */
-            color: white;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5em;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            transition: background-color 0.3s, transform 0.2s, opacity 0.3s, visibility 0.3s;
-            opacity: 0;
-            visibility: hidden; /* Скрыта по умолчанию */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #scrollToTopBtn:hover {
-            background-color: #d1491e;
-            transform: scale(1.1);
-        }
-
-        #scrollToTopBtn.show {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="debug-panel">
-        <h3>🛠️ Debug Mode: Добавление контента</h3>
-        <select id="debug-category">
-            <option value="senran">Senran Kagura</option>
-            <option value="free">Бесплатные переводы</option>
-            <option value="short">(100 ₽) Короткие игры</option>
-            <option value="rep">(150 ₽) Реиграбельные игры</option>
-            <option value="mid">(325 ₽) Средние игры</option>
-            <option value="big">(500 ₽) Большие игры</option>
-            <option value="manga">Перевод манги</option>
-            <option value="asmr">ASMR</option>
-            <option value="games">Игры</option>
-            <option value="arts">Арты</option>
-        </select>
-        <input type="text" id="debug-title" placeholder="Название">
-        <input type="text" id="debug-img" placeholder="catalog/имя_файла.webp">
-        <input type="text" id="debug-link" placeholder="Ссылка">
-        <button onclick="addGameLocally()">Добавить для проверки</button>
-    </div>
-
     <header>
         <img src="catalog/logo.webp" alt="Логотип" class="logo" onerror="this.onerror=null; this.src='catalog/error.webp'">
-        
         <div class="about">
-            Привет! Это страница Кагуровска. Здесь мы переводим игры и собираем их в удобный каталог. 
-            Добро пожаловать.
+            <b>★ Добро пожаловать! ★</b><br>
+			Здесь находятся всё связанное с Senran Kagura, переводы и многое другое.
         </div>
-        
         <div class="links">
             <a href="https://boosty.to/syslickone" class="boosty" target="_blank">Boosty</a>
             <a href="https://t.me/+DQ52La8t-443OTEy" target="_blank">Telegram</a>
             <a href="https://discord.gg/SxbBBh4" class="discord" target="_blank">Discord</a>
+			<button id="donateBtn" class="donate-btn">Поддержать проект</button>
         </div>
     </header>
 
     <main>
-        <div class="catalog-nav">
-            <img src="catalog/arrow_left.webp" class="nav-arrow" onclick="changeCatalog(-1)" alt="Назад" onerror="this.onerror=null; this.src='https://via.placeholder.com/45?text=<-'">
-            
-            <div class="section-title" id="current-catalog-title">Переводы игр</div>
-            
-            <img src="catalog/arrow_right.webp" class="nav-arrow" onclick="changeCatalog(1)" alt="Вперед" onerror="this.onerror=null; this.src='https://via.placeholder.com/45?text=->'">
-        </div>
+        <div class="filters-container">
+			<button class="filter-btn active" data-filter="all">Все проекты</button>
+			<button class="filter-btn" data-filter="senran">Senran Kagura</button>
+			<button class="filter-btn" data-filter="paid">Платные (Boosty)</button>
+			<button class="filter-btn" data-filter="free">Бесплатные</button>
+			<button class="filter-btn" data-filter="manga">Манга</button>
+			<button class="filter-btn" data-filter="arts">Арты</button>
+		</div>
 
-        <div id="cat-translations" class="catalog-section active-next">
-            <div class="category">
-                <h2>Senran Kagura</h2>
-                <div class="grid" id="grid-senran"></div>
-            </div>
-            <div class="category">
-                <h2>Бесплатные или официальные переводы</h2>
-                <div class="grid" id="grid-free"></div>
-            </div>
-            <div class="category">
-                <h2>(100 ₽) Короткие игры</h2>
-                <div class="grid" id="grid-short"></div>
-            </div>
-            <div class="category">
-                <h2>(150 ₽) Реиграбельные игры</h2>
-                <div class="grid" id="grid-rep"></div>
-            </div>
-            <div class="category">
-                <h2>Средние игры</h2>
-                <div class="grid" id="grid-mid"></div>
-            </div>
-            <div class="category">
-                <h2>Большие игры</h2>
-                <div class="grid" id="grid-big"></div>
-            </div>
-        </div>
-
-        <div id="cat-manga" class="catalog-section">
-            <div class="category">
-                <div class="grid" id="grid-manga"></div>
-            </div>
-        </div>
-
-        <div id="cat-asmr" class="catalog-section">
-            <div class="category">
-                <div class="grid" id="grid-asmr"></div>
-            </div>
-        </div>
-
-        <div id="cat-games" class="catalog-section">
-            <div class="category">
-                <div class="grid" id="grid-games"></div>
-            </div>
-        </div>
-
-        <div id="cat-arts" class="catalog-section">
-            <div class="category">
-                <div class="grid" id="grid-arts"></div>
-            </div>
-        </div>
+		<div class="grid" id="main-catalog-grid"></div>
     </main>
 
     <footer>
         ©2026 Кагуровск. Андеграунд с любовью.
     </footer>
+	
+	<div id="donateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeDonateModal">&times;</span>
+            <h2>Поддержать Кагуровск</h2>
+            <p style="margin-bottom: 20px; color: #ccc;">Спасибо, что помогаете проекту!</p>
+            <div class="donate-options">
+                <a href="https://yoomoney.ru/to/410012487374878" target="_blank" class="don-link yoomoney">
+                    <img src="catalog/yoomoney.webp" alt="Юмани" onerror="this.src='https://via.placeholder.com/24/8A2BE2/FFFFFF?text=Ю'"> Юмани
+                </a>
+                <a href="https://boosty.to/syslickone/donate" target="_blank" class="don-link boosty-don">
+                    <img src="catalog/boosty_icon.webp" alt="Boosty" onerror="this.src='https://via.placeholder.com/24/f15f2c/FFFFFF?text=B'"> Boosty
+                </a>
+                <a href="https://www.donationalerts.com/r/syslickone" target="_blank" class="don-link da">
+                    <img src="catalog/da_icon.webp" alt="DonationAlerts" onerror="this.src='https://via.placeholder.com/24/FFA500/FFFFFF?text=DA'"> DonationAlerts
+                </a>
+            </div>
+        </div>
+    </div>
+	
+	<div id="gameModal" class="modal">
+        <div class="modal-content game-modal-content">
+            <span class="close-btn game-close-btn" id="closeGameModal">&times;</span>
+            <h2 id="modalGameTitle" class="game-title">Название игры</h2>
+            
+            <div class="game-modal-body">
+                <div class="game-cover-container">
+                    <img id="modalGameCover" src="" alt="Обложка" style="cursor: pointer;" title="Нажмите, чтобы увеличить">
+                </div>
+                
+                <div class="game-info">
+                    <div id="modalGameDesc" class="game-description">Описание игры...</div>
+                    
+                    <div id="modalGameAuthorsBlock" class="game-meta-block collapsed">
+                        <div class="game-meta-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                            <strong>Авторы перевода</strong>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div id="modalGameAuthors" class="game-meta-content"></div>
+                    </div>
 
+                    <div id="modalGameInstallBlock" class="game-meta-block collapsed">
+                        <div class="game-meta-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                            <strong>Инструкция по установке</strong>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div id="modalGameInstall" class="game-meta-content"></div>
+                    </div>
+                    
+                    <h3 class="screens-title">Скриншоты:</h3>
+                    
+                    <div class="screenshots-wrapper">
+                        <button id="scrollLeftBtn" class="scroll-btn">◄</button>
+                        <div class="game-screenshots" id="modalGameScreenshots"></div>
+                        <button id="scrollRightBtn" class="scroll-btn">►</button>
+                    </div>
+                    
+                    <div class="game-links" id="modalGameLinks"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightboxModal" class="modal lightbox-modal">
+        <div class="modal-content" onclick="event.stopPropagation();">
+            <span class="close-btn" id="closeLightbox" style="top: -40px; right: 0; color: #fff; font-size: 40px;">&times;</span>
+            <button class="lightbox-nav prev" id="lightboxPrev">◄</button>
+            <img id="lightboxImg" src="" alt="">
+            <button class="lightbox-nav next" id="lightboxNext">►</button>
+            <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+        </div>
+    </div>
+	
     <button id="scrollToTopBtn" onclick="scrollToTop()" title="Наверх">↑</button>
 
-    <script>
-        // ==========================================
-        // НАСТРОЙКИ САЙТА И ДАННЫЕ
-        // ==========================================
-        const DEBUG_MODE = false; 
-
-        // База данных карточек
-        const gamesDatabase = {
-            "senran": [
-                { title: "Senran Kagura Burst Re:Newal", img: "catalog/burst_renewal.webp", link: "#" },
-                { title: "Senran Kagura Estival Versus", img: "catalog/estival_versus.webp", link: "#" },
-                { title: "Neptunia x SENRAN KAGURA: Ninja Wars", img: "catalog/ninja_wars.webp", link: "#" }
-            ],
-            "free": [
-                { title: "Third Crisis", img: "catalog/third_crisis.webp", link: "#" },
-                { title: "Shadow Detective", img: "catalog/shadow_detective.webp", link: "#" },
-                { title: "Can I get an Iced Coffee with Breastmilk!?", img: "catalog/iced_coffee.webp", link: "#" }
-            ],
-            "short": [
-                { title: "[18+] It's the right spot! I did it for free with a busty JK", img: "catalog/right_spot.webp", link: "#" },
-                { title: "[18+] Kunoichi Sekiren (赤蓮忍法帖) (0.1.0 версия)", img: "catalog/kunoichi_sekiren.webp", link: "#" },
-                { title: "[18+] Screamer Creamer", img: "catalog/screamer_creamer.webp", link: "#" },
-                { title: "[18+] Zensex Zone Zero: Lumina Story", img: "catalog/zzz_lumina.webp", link: "#" }
-            ],
-            "rep": [
-                { title: "[18+] Glory and Miserable Survivors DX", img: "catalog/glory_survivors.webp", link: "#" }
-            ],
-            "mid": [
-                { title: "Пример средней игры", img: "catalog/mid_game.webp", link: "#" }
-            ],
-            "big": [
-                { title: "Пример большой игры", img: "catalog/big_game.webp", link: "#" }
-            ],
-            "manga": [
-                { title: "Пример перевода манги", img: "catalog/manga_example.webp", link: "#" }
-            ],
-            "asmr": [
-                { title: "Пример ASMR", img: "catalog/asmr_example.webp", link: "#" }
-            ],
-            "games": [
-                { title: "Пример моей игры", img: "catalog/my_game_example.webp", link: "#" }
-            ],
-            "arts": [
-                { title: "Пример арта", img: "catalog/art_example.webp", link: "#" }
-            ]
-        };
-
-        // Структура навигации
-        const catalogsData = [
-            { id: "cat-translations", title: "Переводы игр" },
-            { id: "cat-manga", title: "Перевод манги" },
-            { id: "cat-asmr", title: "ASMR" },
-            { id: "cat-games", title: "Игры" },
-            { id: "cat-arts", title: "Арты" }
-        ];
-        
-        let currentCatIndex = 0; 
-
-        // ==========================================
-        // ЛОГИКА РАБОТЫ КАТАЛОГА
-        // ==========================================
-
-        if (DEBUG_MODE) {
-            document.getElementById('debug-panel').style.display = 'block';
-        }
-
-        function renderGames() {
-            for (const category in gamesDatabase) {
-                const grid = document.getElementById(`grid-${category}`);
-                if (!grid) continue;
-                grid.innerHTML = ''; 
-                
-                gamesDatabase[category].forEach(game => {
-                    const card = document.createElement('a');
-                    card.href = game.link;
-                    card.className = 'game-card';
-                    card.target = '_blank';
-                    
-                    card.innerHTML = `
-                        <img src="${game.img}" alt="${game.title}" onerror="this.onerror=null; this.src='catalog/error.webp'">
-                        <h3>${game.title}</h3>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
-        }
-
-        function changeCatalog(direction) {
-            const currentSection = document.getElementById(catalogsData[currentCatIndex].id);
-            currentSection.className = 'catalog-section'; 
-            
-            currentCatIndex += direction;
-            if (currentCatIndex < 0) currentCatIndex = catalogsData.length - 1;
-            if (currentCatIndex >= catalogsData.length) currentCatIndex = 0;
-            
-            document.getElementById('current-catalog-title').innerText = catalogsData[currentCatIndex].title;
-            
-            const newSection = document.getElementById(catalogsData[currentCatIndex].id);
-            if (direction > 0) {
-                newSection.className = 'catalog-section active-next';
-            } else {
-                newSection.className = 'catalog-section active-prev';
-            }
-        }
-
-        function addGameLocally() {
-            const cat = document.getElementById('debug-category').value;
-            const title = document.getElementById('debug-title').value || "Без названия";
-            const img = document.getElementById('debug-img').value || "catalog/placeholder.webp";
-            const link = document.getElementById('debug-link').value || "#";
-
-            gamesDatabase[cat].push({ title, img, link });
-            renderGames(); 
-        }
-
-        renderGames();
-
-        // ==========================================
-        // ЛОГИКА КНОПКИ "НАВЕРХ"
-        // ==========================================
-        const topBtn = document.getElementById("scrollToTopBtn");
-
-        // Отслеживаем прокрутку страницы
-        window.onscroll = function() {
-            // Если прокрутили больше чем на 300 пикселей вниз, показываем кнопку
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                topBtn.classList.add("show");
-            } else {
-                topBtn.classList.remove("show");
-            }
-        };
-
-        // Плавная прокрутка на самый верх при клике
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
