@@ -1,6 +1,8 @@
 {
   "senran": [
     {
+      "id": "20230223",
+      "platforms": ["windows", "steam"],
       "title": "Senran Kagura Burst Re:Newal",
       "img": "catalog/burst_renewal.webp",
       "desc": "Ремейк оригинальной игры, рассказывающий историю противостояния академий Ханзо и Хэбидзё. Динамичные бои, море фансервиса и отличная графика.",
@@ -25,8 +27,8 @@
   ],
   "free": [
     { "title": "[18+] Third Crisis", "img": "catalog/third_crisis.webp", "link": "#" },
-    { "title": "Shadow Detective", "img": "catalog/shadow_detective.webp", "link": "#" },
-    { "title": "[18+] Can I get an Iced Coffee with Breastmilk!?", "img": "catalog/iced_coffee.webp", "link": "#" }
+    { "title": "Shadow Detective", "img": "catalog/shadow_detective.webp", "link": "https://store.steampowered.com/app/2743840/SHADOW_DETECTIVE/" },
+    { "title": "[18+] Can I get an Iced Coffee with Breastmilk!?", "img": "catalog/iced_coffee.webp", "link": "https://store.steampowered.com/app/4158970/Can_I_get_an_Iced_Coffee_with_Breastmilk/" }
   ],
   "short": [
     { "title": "[18+] It's the right spot! I did it for free with a busty JK", "img": "catalog/right_spot.webp", "link": "#" },
@@ -50,7 +52,8 @@
     { "title": "⚠️Скоро⚠️", "img": "catalog/asmr_example.webp", "link": "#" }
   ],
   "games": [
-    { "title": "Пример моей игры", "img": "catalog/my_game_example.webp", "link": "#" }
+    { "title": "[18+] Blackjack with Asuka", "img": "catalog/bj.webp", "link": "https://syslick1.itch.io/bj-with-asuka" },
+    { "title": "CyberSys", "img": "catalog/my_game_example.webp", "link": "https://syslick1.itch.io/cybersys" }
   ],
   "arts": [
     { "title": "Хикагэн", "img": "catalog/art0.webp", "link": "https://boosty.to/syslickone/posts/e80b056c-e843-4e2c-b3c1-e0d96ec91ee9?share=post_link" },

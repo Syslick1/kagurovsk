@@ -154,9 +154,70 @@ main {
     transform: translateY(0);
 }
 
-.game-card:hover img {
+.game-card:hover img:not(.plat-img) {
     filter: blur(3px) brightness(0.5); 
     transform: scale(1.05); 
+}
+
+/* ==========================================
+   ИНФОРМАЦИЯ В ЦЕНТРЕ КАРТОЧКИ (ДАТА И ПЛАТФОРМЫ)
+   ========================================== */
+.card-center-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: 0.3s ease-in-out;
+    z-index: 3;
+    width: 90%;
+    pointer-events: none; /* Чтобы не перекрывать клик по карточке */
+}
+
+.game-card:hover .card-center-info {
+    opacity: 1;
+}
+
+.card-date {
+    background: rgba(32, 14, 38, 0.95);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-family: 'Stengazeta', sans-serif;
+    color: #ffffff;
+    border: 1px solid #553b60;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    letter-spacing: 1px;
+}
+
+.card-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(32, 14, 38, 0.95);
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #553b60;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+.card-platforms .plat-img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain; /* Чтобы иконки не сплющило, если они не квадратные */
+    fill: #ffffff;
+    filter: drop-shadow(0 0 2px rgba(255,255,255,0.3)); 
+}
+.plat-text {
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 #main-catalog-grid {
@@ -343,4 +404,145 @@ footer {
     box-shadow: 0 0 20px rgba(241, 95, 44, 0.7); 
     transform: scale(1.05);
     font-weight: bold;
+}
+
+/* ==========================================
+   КАРТОЧКИ ПОДПИСОК
+   ========================================== */
+/* Сетка жестко на 5 колонок для десктопа */
+.grid.sub-layout {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.sub-card {
+    aspect-ratio: auto !important; 
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px 20px 10px;
+    cursor: default;
+    background: rgba(32, 14, 38, 0.6);
+    justify-content: flex-start;
+}
+
+.sub-card:hover {
+    transform: translateY(-5px); 
+}
+
+/* Скрываем только стандартные оверлеи и заголовки, картинки оставляем */
+.sub-card h3, .sub-card .card-overlay {
+    display: none !important; 
+}
+
+/* Стили для картинок подписки */
+.sub-card {
+    aspect-ratio: auto !important; 
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px 20px 10px;
+    cursor: pointer; /* <--- ИЗМЕНИЛИ ЗДЕСЬ */
+    background: rgba(32, 14, 38, 0.6);
+    justify-content: flex-start;
+}
+
+.sub-card .sub-img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 480 / 300 !important; /* Идеальные родные пропорции */
+    object-fit: contain !important; /* Влезает целиком без обрезки */
+    flex: 0 0 auto !important; /* Запрет на растягивание */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background: transparent;
+}
+
+/* Отменяем эффект размытия (блюра) от обычных игровых карточек */
+.sub-card:hover .sub-img {
+    filter: brightness(1.1) !important;
+    transform: scale(1.02) !important;
+}
+
+/* На мобильных и узких экранах отменяем 5 в ряд, чтобы текст можно было прочитать */
+@media (max-width: 1000px) {
+    .grid.sub-layout {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+/* ==========================================
+   ПОИСК И СОРТИРОВКА
+   ========================================== */
+.search-sort-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 50px;
+    width: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.search-input, .sort-select {
+    background-color: rgba(32, 14, 38, 0.8);
+    border: 2px solid #553b60;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 90px;
+    font-size: 1.1em;
+    font-family: inherit;
+    outline: none;
+    transition: 0.3s;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 250px;
+    max-width: 500px;
+}
+
+.sort-select {
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.search-input:focus, .sort-select:focus {
+    border-color: #f15f2c;
+    box-shadow: 0 0 10px rgba(241, 95, 44, 0.4);
+}
+
+/* Скрываем панель, если открыта вкладка "Подписка" */
+.search-sort-container.hidden {
+    display: none;
+}
+
+/* ==========================================
+   АНИМАЦИЯ ЗАГРУЗКИ (СКЕЛЕТОНЫ) ДЛЯ КАРТИНОК
+   ========================================== */
+.img-loading {
+    /* Темно-фиолетовый градиент в стиле сайта */
+    background: linear-gradient(90deg, rgba(85, 59, 96, 0.3) 25%, rgba(85, 59, 96, 0.6) 50%, rgba(85, 59, 96, 0.3) 75%);
+    background-size: 200% 100%;
+    animation: loadingPulse 1.5s infinite linear;
+    border-radius: 6px;
+    color: transparent !important; /* Прячем текст alt пока грузится */
+}
+
+@keyframes loadingPulse {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Фиксируем размеры заглушек, чтобы они не схлопывались */
+#modalGameCover.img-loading {
+    min-height: 350px;
+    width: 100%;
+}
+
+.game-screenshots img.img-loading {
+    min-width: 213px; /* Примерная ширина под высоту 120px (16:9) */
+    height: 120px;
 }

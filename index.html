@@ -26,19 +26,33 @@
 
     <main>
         <div class="filters-container">
+            <button class="filter-btn" data-filter="sub">Подписка</button>
 			<button class="filter-btn active" data-filter="all">Все проекты</button>
 			<button class="filter-btn" data-filter="senran">Senran Kagura</button>
 			<button class="filter-btn" data-filter="paid">Платные (Boosty)</button>
 			<button class="filter-btn" data-filter="free">Бесплатные</button>
 			<button class="filter-btn" data-filter="manga">Манга</button>
 			<button class="filter-btn" data-filter="arts">Арты</button>
+            <button class="filter-btn" data-filter="games">Игры</button>
 		</div>
+
+        <div class="search-sort-container" id="searchSortContainer">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск по названию...">
+            <select id="sortSelect" class="sort-select">
+                <option value="date-desc">По дате (сначала новые)</option>
+                <option value="date-asc">По дате (сначала старые)</option>
+                <option value="name-asc">По имени (А → Я)</option>
+                <option value="name-desc">По имени (Я → А)</option>
+                <option value="price-desc">По цене (высш. → низш.)</option>
+                <option value="price-asc">По цене (низш. → высш.)</option>
+            </select>
+        </div>
 
 		<div class="grid" id="main-catalog-grid"></div>
     </main>
 
     <footer>
-        ©2026 Кагуровск. Андеграунд с любовью.
+        Андеграунд с любовью.<br>©2026 Кагуровск. Все права защищены.
     </footer>
 	
 	<div id="donateModal" class="modal">
