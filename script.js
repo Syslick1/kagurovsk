@@ -751,3 +751,36 @@ window.onscroll = function() {
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { topBtn.classList.add("show"); } else { topBtn.classList.remove("show"); }
 };
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+// ==========================================
+// 👆 СВАЙПЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (ГАЛЕРЕЯ)
+// ==========================================
+let touchStartX = 0;
+let touchEndX = 0;
+
+const lightboxEl = document.getElementById('lightboxModal');
+
+lightboxEl.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+lightboxEl.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, false);
+
+function handleSwipe() {
+    const minSwipeDistance = 50; // Минимальная длина свайпа в пикселях
+    
+    // Если окно галереи закрыто — ничего не делаем
+    if (!lightboxEl.classList.contains('show')) return;
+
+    if (touchEndX < touchStartX - minSwipeDistance) {
+        // Свайп влево
+        nextScreen();
+    }
+    if (touchEndX > touchStartX + minSwipeDistance) {
+        // Свайп вправо
+        prevScreen();
+    }
+}
