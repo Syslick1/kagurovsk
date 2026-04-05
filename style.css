@@ -797,14 +797,26 @@ footer {
         font-size: 0.85em;
     }
 
-    /* Фильтры: делаем горизонтальный скролл (свайп), чтобы они не занимали пол экрана в высоту */
-    .filters-container {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding-bottom: 10px;
-        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    /* --- ИСПРАВЛЕНИЕ МАСКИ --- */
+    
+    /* 1. Вешаем маску на неподвижную обертку (теперь края всегда будут на месте) */
+    .filters-wrapper {
+        width: 100%;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
     }
+
+    /* 2. А с самого контейнера маску отменяем, чтобы она не уезжала при скролле */
+    .filters-container {
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+        
+        padding-top: 15px; 
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
     /* Прячем визуальный скроллбар, но оставляем возможность свайпать */
     .filters-container::-webkit-scrollbar { display: none; }
     .filter-btn { white-space: nowrap; font-size: 0.9em; padding: 8px 15px; }
