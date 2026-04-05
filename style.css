@@ -810,8 +810,39 @@ footer {
     .filter-btn { white-space: nowrap; font-size: 0.9em; padding: 8px 15px; }
 
     /* Поиск и сортировка: выстраиваем друг под другом на всю ширину */
-    .search-sort-container { flex-direction: column; gap: 10px; }
-    .search-input, .sort-select { min-width: 100%; width: 100%; font-size: 1em; }
+    /* 1. ЖЕСТКО УБИВАЕМ ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ */
+    .search-sort-container { 
+        flex-direction: column; 
+        gap: 10px; 
+        width: 100%;
+        box-sizing: border-box; 
+    }
+    .search-input, .sort-select { 
+        min-width: 0 !important; 
+        width: 100%; 
+        font-size: 1em; 
+        box-sizing: border-box; /* Это главное: теперь padding не будет раздувать элементы за пределы экрана */
+    }
+    body, html {
+        overflow-x: hidden; /* Запасной предохранитель от случайных свайпов вбок */
+    }
+
+    /* 2. ЧИНИМ МЕСИВО И ПЕРЕКРЫТИЯ НА КАРТОЧКЕ */
+    .hover-title {
+        font-size: 1.2em !important; /* Уменьшаем гигантский заголовок, чтобы он не лез на середину */
+        line-height: 1.2;
+        padding: 10px 5px;
+    }
+
+    .card-center-info {
+        /* Делаем блок с датой и платформами чуть компактнее */
+        transform: translate(-50%, -50%) scale(0.85); 
+    }
+
+    .hover-category {
+        font-size: 1.1em !important; /* Уменьшаем нижнюю плашку */
+        padding: 8px 5px;
+    }
 
     /* Сетка: по умолчанию 240px это одна огромная карточка на весь экран телефона. 
        Делаем 150px, чтобы влезало ровно 2 карточки в ряд */
@@ -864,6 +895,8 @@ footer {
         padding-top: 15px; /* Даем сверху место, чтобы точки "Новинка" и увеличенные активные кнопки не срезались */
         align-items: center; /* Выравниваем их по центру контейнера */
     }
+
+    
 }
 
 /* ==========================================
