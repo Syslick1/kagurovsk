@@ -845,54 +845,24 @@ footer {
     .boosters-modal-content { max-height: 80vh; }
     .booster-item { font-size: 0.95em; }
 
-    /* --- ИСПРАВЛЕНИЯ ДЛЯ ТАЧСКРИНА --- */
-
-    /* 1. Отключаем жесткие пропорции, чтобы вместить текст снизу */
-    .game-card { 
-        aspect-ratio: auto; 
-        display: flex; 
-        flex-direction: column; 
-        padding-bottom: 10px; /* Отступ для текста */
-    }
-
-    /* 2. Показываем стандартный заголовок под обложкой */
-    .game-card h3 { 
-        display: block; 
-        font-size: 1.1em; 
-        margin: 10px 5px 0 5px; 
-        color: #fff; 
-        text-shadow: none; 
-        text-align: center;
-    }
-
-    /* 3. Полностью отключаем выезжающие hover-тексты (они ломают логику тапов) */
-    .hover-title, .hover-category { 
-        display: none !important; 
-    }
-
-    /* 4. Дату и платформы показываем всегда, смещаем в правый верхний угол (или по центру) */
-    .card-center-info { 
-        opacity: 1; 
-        top: 10px; 
-        bottom: auto; 
-        transform: translateX(-50%); 
-        background: rgba(32, 14, 38, 0.7); /* Легкая подложка для читаемости */
-        padding: 5px 10px; 
-        border-radius: 10px; 
-        width: auto;
-    }
-
-    /* 5. Делаем крестик закрытия галереи крупнее, чтобы по нему было легко попасть пальцем */
-    #closeLightbox {
-        top: -60px !important;
-        right: 0px !important;
-        font-size: 50px !important;
-        padding: 10px;
-    }
+    /* 1. Оставляем карточки в покое: дата и платформы будут появляться только при тапе (как и было задумано изначально) */
     
-    /* 6. Картинка в лайтбоксе не должна вылезать за пределы экрана */
-    #lightboxImg {
-        max-height: 70vh;
+    /* 2. Исправляем вылезание текста за рамки в модальном окне игры */
+    .game-modal-content {
+        width: 90% !important;
+        overflow-x: hidden; /* Жестко отрезаем всё, что пытается раздвинуть окно вбок */
+    }
+    .game-info {
+        min-width: 0 !important; /* Убиваем ограничитель ширины, который ломал верстку */
+        width: 100%;
+        word-wrap: break-word; /* Заставляем длинные ссылки и слова переноситься, а не ломать экран */
+        overflow-wrap: break-word;
+    }
+
+    /* 3. Исправляем обрезанные сверху категории (фильтры) */
+    .filters-container {
+        padding-top: 15px; /* Даем сверху место, чтобы точки "Новинка" и увеличенные активные кнопки не срезались */
+        align-items: center; /* Выравниваем их по центру контейнера */
     }
 }
 
