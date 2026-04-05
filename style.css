@@ -797,24 +797,43 @@ footer {
         font-size: 0.85em;
     }
 
-    /* --- ИСПРАВЛЕНИЕ МАСКИ --- */
+    /* --- ИДЕАЛЬНЫЙ СВАЙП ДЛЯ КАТЕГОРИЙ С ГРАДИЕНТОМ --- */
     
-    /* 1. Вешаем маску на неподвижную обертку (теперь края всегда будут на месте) */
+    /* 1. Обертка: стоит на месте и делает градиентные края */
     .filters-wrapper {
         width: 100%;
+        overflow: hidden; /* Обрезает всё, что выходит за рамки */
         -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
         mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
     }
 
-    /* 2. А с самого контейнера маску отменяем, чтобы она не уезжала при скролле */
+    /* 2. Контейнер: внутри обертки, скроллится пальцем */
     .filters-container {
+        display: flex;
+        flex-wrap: nowrap !important; /* ЗАПРЕЩАЕМ перенос кнопок на новую строку */
+        overflow-x: auto; /* ВКЛЮЧАЕМ горизонтальный свайп */
+        justify-content: flex-start !important; /* Кнопки идут слева направо */
+        
+        padding-top: 15px;
+        padding-bottom: 15px; /* Даем место снизу */
+        padding-left: 20px;
+        padding-right: 20px;
+        
+        /* Жестко убиваем старую маску на самом контейнере */
         -webkit-mask-image: none !important;
         mask-image: none !important;
         
-        padding-top: 15px; 
-        align-items: center;
-        padding-left: 20px;
-        padding-right: 20px;
+        /* Прячем системный ползунок скролла */
+        scrollbar-width: none;
+    }
+    
+    .filters-container::-webkit-scrollbar { 
+        display: none; 
+    }
+    
+    .filter-btn { 
+        white-space: nowrap; /* Текст внутри кнопок не ломается */
+        flex-shrink: 0; /* Запрещаем кнопкам сплющиваться в кашу */
     }
     
     /* Прячем визуальный скроллбар, но оставляем возможность свайпать */
