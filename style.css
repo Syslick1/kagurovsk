@@ -890,10 +890,19 @@ footer {
         overflow-wrap: break-word;
     }
 
-    /* 3. Исправляем обрезанные сверху категории (фильтры) */
+    /* 3. Исправляем обрезанные сверху категории и добавляем плавное исчезновение по краям */
     .filters-container {
-        padding-top: 15px; /* Даем сверху место, чтобы точки "Новинка" и увеличенные активные кнопки не срезались */
-        align-items: center; /* Выравниваем их по центру контейнера */
+        padding-top: 15px; 
+        align-items: center;
+        
+        /* --- НОВОЕ: Градиентная маска для краев --- */
+        /* По краям (20px) прозрачно, в центре - полностью видимо */
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+        
+        /* Добавляем боковые отступы, чтобы первую и последнюю кнопку можно было доскроллить в видимую зону */
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     
@@ -926,4 +935,103 @@ footer {
 * {
     scrollbar-width: thin;
     scrollbar-color: #ffcc00 #1a0b1e;
+}
+
+/* Стили для ссылки внутри карточки подписки */
+.sub-link {
+    color: #f15f2c; /* Твой фирменный оранжевый */
+    text-decoration: underline;
+    transition: color 0.3s ease; /* Плавное перекрашивание */
+}
+
+.sub-link:hover {
+    color: #ffffff; /* Становится белым при наведении */
+}
+
+/* ==========================================
+   ПЕРЕЛИВАЮЩИЕСЯ ГРАДИЕНТЫ ДЛЯ ВСЕХ КАТЕГОРИЙ
+   ========================================== */
+
+/* 1. Базовый класс (настраивает рамку и анимацию движения) */
+.animated-gradient-card {
+    border: 3px solid transparent !important; 
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 300% 300%;
+    animation: smoothFlow 2s ease infinite; 
+}
+
+@keyframes smoothFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 2. Цвета для каждой конкретной категории */
+
+/* Бесплатные (Твой бело-желтый вариант) */
+.tier-free {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #ffffff 0%, #f3f174 50%, #ffffff 100%);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4) !important; 
+}
+
+/* 50 руб (Белый -> Светло-серый) */
+.tier-50 {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #ffffff 0%, #cccccc 50%, #ffffff 100%);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3) !important; 
+}
+
+/* 100 руб (Зеленый -> Светло-зеленый) */
+.tier-100 {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #01ff09 0%, #86efac 50%, #01ff09 100%);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.4) !important; 
+}
+
+/* 150 руб (Синий -> Голубой) */
+.tier-150 {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #0004ff 0%, #93c5fd 50%, #0004ff 100%);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4) !important; 
+}
+
+/* 325 руб (Фиолетовый -> Светло-фиолетовый) */
+.tier-325 {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #8400ff 0%, #d8b4fe 50%, #8400ff 100%);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important; 
+}
+
+/* GOAT и 500 руб (Золотой -> Светло-желтый) */
+.tier-GOAT, .tier-500 {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #ffb700 0%, #fde68a 50%, #ffb700 100%);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4) !important; 
+}
+
+/* 1000 руб (Красный -> Розовый) */
+.tier-1000 {
+    background-image: linear-gradient(#200E26, #200E26), linear-gradient(135deg, #ff0000 0%, #fca5a5 50%, #ffa200 100%);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4) !important; 
+}
+
+/* --- СОВРЕМЕННАЯ ИКОНКА ПЕРЕХОДА (ВНЕШНЯЯ ССЫЛКА) --- */
+.hover-arrows {
+    position: absolute;
+    bottom: 60px; /* Висит ровно над плашкой категории */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffffff;
+    opacity: 0;
+    transition: 0.7s ease-in-out;
+    z-index: 5;
+    pointer-events: none; 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); /* Мягкая тень для читаемости на светлых обложках */
+}
+
+.game-card:hover .hover-arrows {
+    opacity: 1;
+    /* Плавное движение вверх-вниз вместо дерганого увеличения */
+    animation: floatArrow 1s infinite alternate ease-in-out;
+}
+
+@keyframes floatArrow {
+    0% { transform: translateX(-50%) translateY(0); color: #ffffff; }
+    100% { transform: translateX(-50%) translateY(-5px); color: #f15f2c; }
 }

@@ -84,7 +84,7 @@ function isGameNew(game) {
 // --- НОВАЯ ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ ТОЧЕК НА КНОПКАХ ---
 function updateCategoryBadges() {
     const filterMap = {
-        'all': Object.keys(gamesDatabase).filter(k => k !== 'arts'),
+        'all': Object.keys(gamesDatabase).filter(k => k !== 'arts' && k !== 'games'),
         'paid': ['short', 'rep', 'mid', 'big'],
         'free': ['free', 'official'],
         'senran': ['senran'],
@@ -134,9 +134,9 @@ function renderFilteredGames(filterKey, isInstant = false) {
             mainGrid.classList.add('sub-layout'); 
 
             const subTiers = [
-                { price: "50₽", color: "#ffffff", desc: "Арты", img: "sub/1.webp", link: "https://boosty.to/syslickone/purchase/2000875?ssource=DIRECT&share=subscription_link" },
-                { price: "100₽", color: "#4ade80", desc: "Арты<br>Перевод простых игр", img: "sub/2.webp", link: "https://boosty.to/syslickone/purchase/3141942?ssource=DIRECT&share=subscription_link" },
-                { price: "150₽", color: "#3b82f6", desc: "Арты<br>Перевод простых игр<br>Перевод реиграб. игр", img: "sub/3.webp", link: "https://boosty.to/syslickone/purchase/2033965?ssource=DIRECT&share=subscription_link" },
+                { price: "50₽", color: "#ffffff", desc: "Арты + <a href='https://boosty.to/syslickone/posts/9bb887a8-8e1d-4ad1-9cb6-2a76e14f606a?share=post_link' target='_blank' class='sub-link'>Предложка</a>", img: "sub/1.webp", link: "https://boosty.to/syslickone/purchase/2000875?ssource=DIRECT&share=subscription_link" },
+                { price: "100₽", color: "#4ade80", desc: "Арты + <a href='https://boosty.to/syslickone/posts/9bb887a8-8e1d-4ad1-9cb6-2a76e14f606a?share=post_link' target='_blank' class='sub-link'>Предложка</a><br>Перевод простых игр", img: "sub/2.webp", link: "https://boosty.to/syslickone/purchase/3141942?ssource=DIRECT&share=subscription_link" },
+                { price: "150₽", color: "#3b82f6", desc: "Арты + <a href='https://boosty.to/syslickone/posts/9bb887a8-8e1d-4ad1-9cb6-2a76e14f606a?share=post_link' target='_blank' class='sub-link'>Предложка</a><br>Перевод простых игр<br>Перевод реиграб. игр", img: "sub/3.webp", link: "https://boosty.to/syslickone/purchase/2033965?ssource=DIRECT&share=subscription_link" },
                 { price: "325₽", color: "#a855f7", desc: "⚠️Скоро⚠️", img: "sub/4.webp", link: "https://boosty.to/syslickone/purchase/2000895?ssource=DIRECT&share=subscription_link" },
                 { price: "500₽", color: "#fbbf24", desc: "⚠️Скоро⚠️", img: "sub/5.webp", link: "https://boosty.to/syslickone/purchase/2001006?ssource=DIRECT&share=subscription_link" }
             ]; 
@@ -191,8 +191,8 @@ function renderFilteredGames(filterKey, isInstant = false) {
         };
 
         const defaultCategoryPrices = {
-            "short": "50", "rep": "100", "mid": "150", "big": "325",
-            "senran": "free", "free": "free", "manga": "free", "official": "free", "arts": "free", "asmr": "free", "games": "free"
+            "short": "100", "rep": "150", "mid": "325", "big": "500",
+            "senran": "free", "free": "free", "manga": "free", "official": "free", "arts": "50", "asmr": "free", "games": "free"
         };
 
         const processGame = (game, key) => {
@@ -204,12 +204,12 @@ function renderFilteredGames(filterKey, isInstant = false) {
         };
 
         if (filterKey === 'all') {
-            for (const key in gamesDatabase) { 
-                if (key !== 'arts') { // Исключаем арты
-                    gamesDatabase[key].forEach(game => processGame(game, key)); 
-                }
-            }
-        } else if (filterKey === 'paid') {
+    for (const key in gamesDatabase) { 
+        if (key !== 'arts' && key !== 'games') { // Исключаем арты и оригинальные игры
+            gamesDatabase[key].forEach(game => processGame(game, key)); 
+        }
+    }
+} else if (filterKey === 'paid') {
             ["short", "rep", "mid", "big"].forEach(key => {
                 if (gamesDatabase[key]) gamesDatabase[key].forEach(game => processGame(game, key));
             });
@@ -277,9 +277,17 @@ function renderFilteredGames(filterKey, isInstant = false) {
             // ВАЖНО: теперь мы перебираем paginatedGames, а не gamesToRender
             paginatedGames.forEach(game => {
                 const card = document.createElement('div');
-                card.className = 'game-card';
-                card.style.border = `1px solid ${game._titleColor}`;
-                card.style.boxShadow = `0 0 10px 1px ${game._titleColor}`;
+                // Автоматически вешаем базовый класс градиента и класс цены (например, tier-150 или tier-GOAT)
+                card.className = `game-card animated-gradient-card tier-${game._priceStr}`;
+                
+                // Если проект бесплатный — вешаем класс с градиентом
+                if (game._priceStr === "free") {
+                    card.classList.add('free-gradient-card');
+                } else {
+                    // Для платных оставляем стандартный сплошной цвет
+                    card.style.border = `1px solid ${game._titleColor}`;
+                    card.style.boxShadow = `0 0 10px 1px ${game._titleColor}`;
+                }
                 
                 // --- НОВАЯ ЛОГИКА: Определяем прямую ссылку заранее ---
                 let directLink = null;
@@ -331,7 +339,26 @@ function renderFilteredGames(filterKey, isInstant = false) {
                 }
 
                 // Добавляем раскраску заголовка
+                // Добавляем раскраску заголовка
+               // Добавляем раскраску заголовка
                 const coloredTitle = colorizeTags(game.title);
+
+                // --- ЛОГИКА ИКОНКИ ПЕРЕХОДА ---
+                const hasNoContent = !game.desc && !game.authors && !game.install && (!game.screenshots || game.screenshots.length === 0);
+                const isDirectLink = hasNoContent && linkCount === 1 && directLink;
+                
+                // Показываем иконку ТОЛЬКО если это прямая ссылка И категория НЕ "arts"
+                const showIcon = isDirectLink && game._originalKey !== "arts";
+                
+                // Используем красивую SVG-иконку вместо колхозных >>>
+                const arrowsHTML = showIcon ? `
+                    <div class="hover-arrows">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                    </div>` : '';
 
                 card.innerHTML = `
                     ${isNew ? '<div class="new-badge">Новинка!</div>' : ''}
@@ -344,17 +371,17 @@ function renderFilteredGames(filterKey, isInstant = false) {
                     </div>
 
                     ${categoryHTML}
+                    ${arrowsHTML}
                     <h3>${coloredTitle}</h3>
                 `;
 
-                // Логика открытия модалки или перехода по ссылке для всей карточки
-                const hasNoContent = !game.desc && !game.authors && !game.install && (!game.screenshots || game.screenshots.length === 0);
-
-                if (hasNoContent && linkCount === 1 && directLink) {
+                // Логика открытия модалки или перехода по ссылке
+                if (isDirectLink) {
                     card.onclick = function() { window.open(directLink, '_blank'); };
                 } else {
                     card.onclick = function() { openGameInfo(game); };
                 }
+                
                 mainGrid.appendChild(card);
             });
             
