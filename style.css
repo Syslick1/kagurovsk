@@ -822,15 +822,13 @@ footer {
         /* Жестко убиваем старую маску на самом контейнере */
         -webkit-mask-image: none !important;
         mask-image: none !important;
-        
-        /* Прячем системный ползунок скролла */
-        scrollbar-width: none;
     }
     
-    .filters-container::-webkit-scrollbar { 
-        display: none; 
+    .filters-container::after {
+        content: '';
+        flex: 0 0 25px; /* Создаем невидимый блок шириной 20px */
     }
-    
+
     .filter-btn { 
         white-space: nowrap; /* Текст внутри кнопок не ломается */
         flex-shrink: 0; /* Запрещаем кнопкам сплющиваться в кашу */
