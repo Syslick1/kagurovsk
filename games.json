@@ -12,8 +12,7 @@
         "screenshot/burst_scr1.webp",
         "screenshot/burst_scr2.webp",
         "screenshot/burst_scr3.webp",
-        "screenshot/burst_scr4.webp",
-        "screenshot/burst_scr0.webp"
+        "screenshot/burst_scr4.webp"
       ],
       "links": [
         { "text": "Скачать с ZOG", "url": "https://www.zoneofgames.ru/games/senran_kagura_burst_renewal/files/7889.html", "icon": "catalog/zog_icon.webp", "color": "#4b4b4b" },
@@ -22,41 +21,416 @@
         { "text": "Руководство в Steam", "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=2798205863", "icon": "catalog/steam_icon.webp", "color": "linear-gradient(45deg, #171a21, #2a475e)" }
       ]
     },
-    { "title": "Senran Kagura Estival Versus", "img": "catalog/estival_versus.webp", "link": "#" },
-    { "title": "Neptunia x SENRAN KAGURA: Ninja Wars", "img": "catalog/ninja_wars.webp", "link": "#" }
+    {
+    "id": "20240608",
+    "platforms": [
+        "windows",
+        "steam"
+    ],
+    "title": "Senran Kagura Estival Versus",
+    "img": "catalog/estival_versus.webp",
+    "desc": "Оказавшись в параллельном измерении, наши пышногрудые шиноби готовятся к новому виду пляжных сражений. Можно ли доверять хозяевам острова? Будут ли другие школы играть по правилам? Успеют ли девушки насладиться пляжем до того, как начнется битва? И удастся ли хоть кому-то сохранить свою одежду целой?",
+    "authors": "exDemonius — главный переводчик, художник текстур, создатель шрифтов<br>Syslick — духовный лидер, переводчик, художник текстур<br>Maticks — главный тестер, переводчик<br>makc_ar — основатель перевода, разбор ресурсов<br>SileNTViP — разработка программ для перевода, разбор ресурсов<br>Midori — переводчик<br>KASaLEX — перевод видеороликов<br>asher2225 — тестер<br>strelok553 — художник текстур<br>dydya — переводчица<br>Broccoli_nyu — переводчик<br>Dead Veteran — тестер<br>ovcelov — тестер<br><br>Отдельная благодарность:<br>Buckwheat Software и Zone of Games.",
+    "screenshots": [
+        "screenshot/ev0.webp",
+        "screenshot/ev1.webp",
+        "screenshot/ev2.webp",
+        "screenshot/ev3.webp",
+        "screenshot/ev4.webp",
+        "screenshot/ev5.webp",
+        "screenshot/ev6.webp"
+    ],
+    "install": "Установка: ВАЖНО! УСТАНАВЛИВАЙТЕ РУСИФИКАТОР НА АБСОЛЮТНО ЧИСТУЮ ОРИГИНАЛЬНУЮ ВЕРСИЮ ИГРЫ БЕЗ ВСЯКИХ МОДИФИКАЦИЙ!<br>1 способ: Запустите «SKEV.exe» и укажите папку где установлена игра.<br>2 способ: Переместите файл «SKEV.exe» в корень папки игры и запустите его.Установка занимает 3-5 минут.",
+    "links": [
+        {
+            "text": "Скачать с ZOG",
+            "url": "https://www.zoneofgames.ru/games/senran_kagura_estival_versus/files/9147.html",
+            "icon": "catalog/zog_icon.webp",
+            "color": "#4b4b4b"
+        },
+        {
+            "text": "Google Drive",
+            "url": "https://drive.google.com/file/d/1bm2Qv0DLqX32ylOrbLhcMnAbMEFYtO5d/view",
+            "icon": "catalog/gdrive_icon.webp",
+            "color": "#34a853"
+        },
+        {
+            "text": "Руководство в Steam",
+            "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3262496513",
+            "icon": "catalog/steam_icon.webp",
+            "color": "linear-gradient(45deg, #171a21, #2a475e)"
+        }
+    ]
+},
+    {
+    "id": "20240622",
+    "platforms": [
+        "windows",
+        "steam",
+        "ps",
+        "switch"
+    ],
+    "title": "Neptunia x SENRAN KAGURA: Ninja Wars",
+    "img": "catalog/ninja_wars.webp",
+    "desc": "Neptunia и SENRAN KAGURA объединяют силы в этой драйвовой экшен-RPG!",
+    "authors": "Перевод: Hocorog<br>Текстуры: Hocorog<br>Разбор ресурсов: Hocorog, XiGMA<br>Редактура: Hocorog<br>Шрифт: Hocorog<br><br>Порт перевода на Switch: «Кагуровск»<br>Порт перевода на PS4: Shellters-bob и fly-usm",
+    "screenshots": [
+        "screenshot/ev0=.webp",
+        "screenshot/ev1=.webp",
+        "screenshot/ev2=.webp",
+        "screenshot/ev3=.webp",
+        "screenshot/ev4=.webp",
+        "screenshot/ev5=.webp"
+    ],
+    "versions": [
+        {
+            "name": "PC Steam",
+            "install": "Замените файлы в корне папки игры.",
+            "links": [
+                {
+                    "text": "Яндекс.Диск",
+                    "url": "https://disk.yandex.ru/d/xarhTuiUiFrdhA",
+                    "icon": "catalog/ydisk_icon.webp",
+                    "color": "#ffe000"
+                },
+                {
+                    "text": "Скачать с ZOG",
+                    "url": "https://www.zoneofgames.ru/games/neptunia_x_senran_kagura_ninja_wars/files/8112.html",
+                    "icon": "catalog/zog_icon.webp",
+                    "color": "#4b4b4b"
+                }
+            ]
+        },
+        {
+            "name": "Switch",
+            "install": "0. У вас должен быть установлен LayeredFS, если вы не первый раз устанавливаете русификаторы, то пропускайте этот пункт.<br>1. Установите игру на свитч версии: 01008D0016AF4000 [Europe, USA]<br>2. Скачайте русификатор.<br>3. Подключите свитч к компьютеру и папку \"01008D0016AF4000\" переместите в следующий путь: /atmosphere/contents (или /sxos/titles/, или /atmosphere/titles, или /ReiNX/titles в зависимости от вашей прошивки).<br>4. Приятной игры!",
+            "links": [
+                {
+                    "text": "Яндекс.Диск",
+                    "url": "https://disk.yandex.ru/d/nTprtO1n8KrnJA",
+                    "icon": "catalog/ydisk_icon.webp",
+                    "color": "#ffe000"
+                },
+                {
+                    "text": "Скачать с ZOG",
+                    "url": "https://www.zoneofgames.ru/games/neptunia_x_senran_kagura_ninja_wars/files/9162.html",
+                    "icon": "catalog/zog_icon.webp",
+                    "color": "#4b4b4b"
+                }
+            ]
+        },
+        {
+            "name": "PS4",
+            "install": "Патч 1.02 для PS4 с русским переводом.<br>Код диска: CUSA29604<br>Регион игры: EUR",
+            "links": [
+                {
+                    "text": "Яндекс.Диск",
+                    "url": "https://disk.yandex.ru/d/XD9wICQzG4Jmog",
+                    "icon": "catalog/ydisk_icon.webp",
+                    "color": "#ffe000"
+                },
+                {
+                    "text": "Скачать с ZOG",
+                    "url": "https://www.zoneofgames.ru/games/neptunia_x_senran_kagura_ninja_wars/files/10961.html",
+                    "icon": "catalog/zog_icon.webp",
+                    "color": "#4b4b4b"
+                }
+            ]
+        }
+    ]
+}
   ],
   "free": [
-    { "title": "[18+] Third Crisis", "img": "catalog/third_crisis.webp", "link": "#" },
-    { "title": "Shadow Detective", "img": "catalog/shadow_detective.webp", "link": "https://store.steampowered.com/app/2743840/SHADOW_DETECTIVE/" },
-    { "title": "[18+] Can I get an Iced Coffee with Breastmilk!?", "img": "catalog/iced_coffee.webp", "link": "https://store.steampowered.com/app/4158970/Can_I_get_an_Iced_Coffee_with_Breastmilk/" }
+    {
+    "id": "20251201",
+    "platforms": [
+        "steam"
+    ],
+    "img": "catalog/TC.webp",
+    "title": "[18+] Third Crisis [нейросетевой перевод]",
+    "link": "https://boosty.to/syslickone/posts/5c008a11-fc2d-4c39-a1a5-2f50c3ac18c9?share=post_link"
+}
   ],
+  "official": [
+    { "id": "20251029", "platforms": ["steam"], "title": "Shadow Detective", "img": "catalog/shadow_detective.webp", "link": "https://store.steampowered.com/app/2743840/SHADOW_DETECTIVE/" },
+    { "id": "20260212", "platforms": ["steam"], "title": "[18+] Can I get an Iced Coffee with Breastmilk!?", "img": "catalog/iced_coffee.webp", "link": "https://store.steampowered.com/app/4158970/Can_I_get_an_Iced_Coffee_with_Breastmilk/" }
+    ],
   "short": [
-    { "title": "[18+] It's the right spot! I did it for free with a busty JK", "img": "catalog/right_spot.webp", "link": "#" },
-    { "title": "[18+] Kunoichi Sekiren (赤蓮忍法帖) (0.1.0 версия)", "img": "catalog/kunoichi_sekiren.webp", "link": "#" },
-    { "title": "[18+] Screamer Creamer", "img": "catalog/screamer_creamer.webp", "link": "#" },
-    { "title": "[18+] Zensex Zone Zero: Lumina Story", "img": "catalog/zzz_lumina.webp", "link": "#" }
+    {
+    "id": "20250816",
+    "platforms": [
+        "windows",
+        "android"
+    ],
+    "title": "[18+] It's the right spot! I did it for free with a busty JK",
+    "img": "catalog/right_spot.webp",
+    "desc": "Когда я просматривал какой-то порносайт, моё внимание привлекла странная ссылка.<br>Это было похоже на трансляцию в реальном времени, и я увидел симпатичную пышногрудую девушку в школьной форме, связанную по рукам и ногам.<br>В описании было написано: \"Делай с этой девушкой все, что захочешь, чтобы удовлетворить своё мужское желание\"...",
+    "authors": "Перевод: Syslick",
+    "screenshots": [
+        "screenshot/new1.webp",
+        "screenshot/new2.webp",
+        "screenshot/new3.webp",
+        "screenshot/new4.webp",
+        "screenshot/new5.webp"
+    ],
+    "links": [
+        {
+            "text": "Перейти к посту",
+            "url": "https://boosty.to/syslickone/posts/dbdaf05c-6238-4673-baaf-00d30758f778?share=post_link",
+            "icon": "catalog/boosty_icon.webp"
+        }
+    ]
+},
+    {
+    "id": "20251105",
+    "platforms": [
+        "windows"
+    ],
+    "title": "[18+] Kunoichi Sekiren [0.1.0]",
+    "img": "catalog/seki.webp",
+    "desc": "Действие происходит в Японии периода Эдо. Сэкирэн с самого детства обучалась искусству ниндзя. Днем она работает официанткой в чайном доме, а по ночам выполняет различные задания как ниндзя.",
+    "authors": "Перевод: Syslick",
+    "screenshots": [
+        "screenshot/ks0.webp",
+        "screenshot/ks1.webp",
+        "screenshot/ks2.webp",
+        "screenshot/ks3.webp",
+        "screenshot/ks4.webp",
+        "screenshot/ks5.webp",
+        "screenshot/ks6.webp"
+    ],
+    "links": [
+        {
+            "text": "Перейти к посту",
+            "url": "https://boosty.to/syslickone/posts/1efb7c88-8a72-42d6-9364-bf9f66a2635b?share=post_link",
+            "icon": "catalog/boosty_icon.webp"
+        }
+    ]
+},
+    {
+    "id": "20251209",
+    "platforms": [
+        "windows",
+        "itch"
+    ],
+    "title": "[18+] Screamer Creamer",
+    "img": "catalog/SC.webp",
+    "desc": "Ты засиделся за полночь, в спешке дописывая курсач, с которым тянул до последнего. И тут твой приятель из универа присылает тебе загадочную игру, уверяя, что она «очень смешная».<br><br>Сексуальная пародия на старые флеш-игры с розыгрышами из начала 2000-х!",
+    "authors": "Перевод: Syslick",
+    "screenshots": [
+        "screenshot/SC0.webp",
+        "screenshot/SC1.webp",
+        "screenshot/SC2.webp",
+        "screenshot/SC3.webp"
+    ],
+    "links": [
+        {
+            "text": "Перейти к посту",
+            "url": "https://boosty.to/syslickone/posts/934941a5-faa1-4cff-81fb-11b31a881586?share=post_link",
+            "icon": "catalog/boosty_icon.webp"
+        }
+    ]
+},
+    {
+    "id": "20250626",
+    "platforms": [
+        "windows"
+    ],
+    "title": "[18+] Zensex Zone Zero: Lumina Story",
+    "img": "catalog/ZZZ.webp",
+    "desc": "Набор коротких NSFW анимаций от WATERRING",
+    "authors": "Перевод: Syslick",
+    "link": "https://boosty.to/syslickone/posts/a92ca519-8253-4692-b5ed-cc4f4b684d0a?share=post_link"
+}
   ],
   "rep": [
-    { "title": "[18+] Glory and Miserable Survivors DX", "img": "catalog/glory_survivors.webp", "link": "https://boosty.to/syslickone/posts/51a12f9f-21d1-4adc-86d4-33a7ab195c68?share=post_link" }
+    {
+    "id": "20240529",
+    "platforms": [
+        "windows",
+        "steam"
+    ],
+    "title": "[18+] Glory and Miserable Survivors DX [1.0.9]",
+    "img": "catalog/daisenka.webp",
+    "desc": "Каждая из героинь — искусная воительница, представляющая свой род войск, и любая из них способна в одиночку сдерживать натиск наступающих армий. Впереди их ждет либо великая победа, либо сокрушительное поражение...",
+    "authors": "Перевод: Syslick",
+    "screenshots": [
+        "screenshot/dai0.webp",
+        "screenshot/dai1.webp",
+        "screenshot/dai2.webp",
+        "screenshot/dai3.webp"
+    ],
+    "links": [
+        {
+            "text": "Перейти к посту",
+            "url": "https://boosty.to/syslickone/posts/51a12f9f-21d1-4adc-86d4-33a7ab195c68?share=post_link",
+            "icon": "catalog/boosty_icon.webp"
+        }
+    ]
+}
   ],
-  "mid": [
-    { "title": "⚠️Скоро⚠️", "img": "catalog/mid_game.webp", "link": "#" }
-  ],
-  "big": [
-    { "title": "⚠️Скоро⚠️", "img": "catalog/big_game.webp", "link": "#" }
-  ],
+  "mid": [],
+  "big": [],
   "manga": [
-    { "title": "Случай на пляже", "img": "catalog/manga0.webp", "link": "https://boosty.to/syslickone/posts/0745e6ab-a9f1-438b-ac71-2fcb6212fe3c" }
+    {
+    "id": "20250418",
+    "title": "Сенран Кагура: Совершенные тени (1-й том)",
+    "img": "catalog/ass.webp",
+    "link": "https://boosty.to/syslickone/posts/9c259104-0248-4a41-b3ed-c62bb1070032?share=post_link"
+},
+    { "id": "20230901", "title": "Случай на пляже", "img": "catalog/manga0.webp", "link": "https://boosty.to/syslickone/posts/0745e6ab-a9f1-438b-ac71-2fcb6212fe3c" }
   ],
-  "asmr": [
-    { "title": "⚠️Скоро⚠️", "img": "catalog/asmr_example.webp", "link": "#" }
-  ],
+  "asmr": [],
   "games": [
-    { "title": "[18+] Blackjack with Asuka", "img": "catalog/bj.webp", "link": "https://syslick1.itch.io/bj-with-asuka" },
-    { "title": "CyberSys", "img": "catalog/my_game_example.webp", "link": "https://syslick1.itch.io/cybersys" }
+    {
+    "id": "20260306",
+    "platforms": [
+        "itch"
+    ],
+    "title": "[18+] Blackjack with Asuka",
+    "img": "catalog/bj.webp",
+    "desc": "Блэкджек с Аской из Senran Kagura на раздевание.",
+    "links": [
+        {
+            "text": "Itch.io",
+            "url": "https://syslick1.itch.io/bj-with-asuka",
+            "icon": "catalog/itch.webp",
+            "color": "#f22ccd"
+        }
+    ]
+},
+    {
+    "id": "20260221",
+    "platforms": [
+        "itch"
+    ],
+    "title": "SyberSys",
+    "img": "catalog/SUS.webp",
+    "desc": "Флэппи-бёрд с возможностью кастомизации треков и картинок на заднем фоне... Брух.",
+    "links": [
+        {
+            "text": "Itch.io",
+            "url": "https://syslick1.itch.io/cybersys",
+            "icon": "catalog/itch.webp",
+            "color": "#f22ccd"
+        },
+        {
+            "text": "Перейти к посту",
+            "url": "https://boosty.to/syslickone/posts/86a6f530-7b45-4563-a40b-5246c3302b1a?share=post_link",
+            "icon": "catalog/boosty_icon.webp"
+        }
+    ]
+}
   ],
   "arts": [
-    { "title": "Хикагэн", "img": "catalog/art0.webp", "link": "https://boosty.to/syslickone/posts/e80b056c-e843-4e2c-b3c1-e0d96ec91ee9?share=post_link" },
-    { "title": "Арт от fxtsr", "img": "catalog/art_example.webp", "link": "https://boosty.to/syslickone/posts/eb651a70-5543-4dd2-9b39-2cace94dbe3d" }
+    { "id": "20231001", "title": "[KK] Хикагэн", "img": "catalog/art0.webp", "link": "https://boosty.to/syslickone/posts/e80b056c-e843-4e2c-b3c1-e0d96ec91ee9?share=post_link" },
+    { "id": "20230918", "title": "Арт от fxtsr", "img": "catalog/art_example.webp", "link": "https://boosty.to/syslickone/posts/eb651a70-5543-4dd2-9b39-2cace94dbe3d" },
+    { "id": "20240808", "title": "[KK] Мурасаки", "img": "catalog/mur.webp", "link": "https://boosty.to/syslickone/posts/9db9d6e6-4481-43b7-bc53-2b011bc90d95?share=post_link" },
+    { "id": "20240808", "title": "[KK] Юми", "img": "catalog/yum.webp", "link": "https://boosty.to/syslickone/posts/9db9d6e6-4481-43b7-bc53-2b011bc90d95?share=post_link" },
+    { "id": "20240808", "title": "[KK] Икаруга", "img": "catalog/ika.webp", "link": "https://boosty.to/syslickone/posts/9db9d6e6-4481-43b7-bc53-2b011bc90d95?share=post_link" },
+    { "id": "20240808", "title": "[KK] Ягю", "img": "catalog/yag.webp", "link": "https://boosty.to/syslickone/posts/9db9d6e6-4481-43b7-bc53-2b011bc90d95?share=post_link" },
+    { "id": "20241021", "title": "[KK] Шики арты", "img": "catalog/Sik.webp", "link": "https://boosty.to/syslickone/posts/ff60c75d-4ddc-4d90-aaf2-951552169420?share=post_link" },
+{
+    "id": "20250115",
+    "title": "[KK] Арты с Мурасаки",
+    "img": "catalog/mmur.webp",
+    "link": "https://boosty.to/syslickone/posts/2f807c19-cd70-4a2e-a63b-0be2163e9474?share=post_link"
+},
+{
+    "id": "20250321",
+    "title": "[KK] Ëми из подвала",
+    "img": "catalog/yo.webp",
+    "link": "https://boosty.to/syslickone/posts/a060a2e2-9d0a-40de-8915-53101c0d9a18?share=post_link"
+},
+{
+    "id": "20250402",
+    "title": "[KK] Блэкджек с Аской",
+    "img": "catalog/as.webp",
+    "link": "https://boosty.to/syslickone/posts/95abf088-8be6-479f-8154-f40c035b8e22?share=post_link"
+},
+{
+    "id": "20241125",
+    "title": "[AI] Джуэл",
+    "img": "catalog/jel.webp",
+    "link": "https://boosty.to/syslickone/posts/26e96b34-b171-436b-8804-1241f430a1f9?share=post_link"
+},
+{
+    "id": "20240815",
+    "title": "[AI] Дженна",
+    "img": "catalog/jen.webp",
+    "link": "https://boosty.to/syslickone/posts/af652c23-b980-4b11-b7ec-dac9b13ced66?share=post_link"
+},
+{
+    "id": "20240908",
+    "title": "[AI] Дженна",
+    "img": "catalog/jen2.webp",
+    "link": "https://boosty.to/syslickone/posts/af652c23-b980-4b11-b7ec-dac9b13ced66?share=post_link"
+},
+{
+    "id": "20250430",
+    "title": "[KK] IkkiTousen",
+    "img": "catalog/ikki.webp",
+    "link": "https://boosty.to/syslickone/posts/18e15fd8-6225-45b2-ac68-dd17425b066d?share=post_link"
+},
+{
+    "id": "20250711",
+    "title": "[AI] Кагура",
+    "img": "catalog/Kagu.webp",
+    "link": "https://boosty.to/syslickone/posts/8355e906-5d2e-47f7-a1a2-4b62c8d710d1?share=post_link"
+},
+{
+    "id": "20250712",
+    "title": "[KK] Кагура",
+    "img": "catalog/kag.webp",
+    "link": "https://boosty.to/syslickone/posts/adea97c8-8f96-43df-8447-e740c790e781?share=post_link"
+},
+{
+    "id": "20250720",
+    "title": "[KK] Сенко и Гекко",
+    "img": "catalog/SG.webp",
+    "link": "https://boosty.to/syslickone/posts/01989db5-7ddf-41c4-b2c7-e2af41b8498a?share=post_link"
+},
+{
+    "id": "20250819",
+    "title": "[AI] Мияби из ZZZ",
+    "img": "catalog/zm.webp",
+    "link": "https://boosty.to/syslickone/posts/a318bb9a-82c9-4c1d-bd74-de33e2509ef1?share=post_link"
+},
+{
+    "id": "20250823",
+    "title": "[KK] Мияби",
+    "img": "catalog/skm.webp",
+    "link": "https://boosty.to/syslickone/posts/5802599b-a262-4c65-a775-0c0f33d9aa47?share=post_link"
+},
+{
+    "id": "20250909",
+    "title": "[KK] ХикАска",
+    "img": "catalog/ashik.webp",
+    "link": "https://boosty.to/syslickone/posts/db31605e-3be6-483f-9534-28fc8ec718c7?share=post_link"
+},
+{
+    "id": "20251105",
+    "title": "[AI] Хошими Мияби",
+    "img": "catalog/hoshishi.webp",
+    "link": "https://boosty.to/syslickone/posts/1efb7c88-8a72-42d6-9364-bf9f66a2635b?share=post_link"
+},
+{
+    "id": "20251204",
+    "title": "[AI] Токи-Токи",
+    "img": "catalog/Tokaai.webp",
+    "link": "https://boosty.to/syslickone/posts/2256c948-4ae6-4095-a22d-92b8298489f7?share=post_link"
+},
+{
+    "id": "20251204",
+    "title": "[KK] Токи-Токи",
+    "img": "catalog/Tokakk.webp",
+    "link": "https://boosty.to/syslickone/posts/2256c948-4ae6-4095-a22d-92b8298489f7?share=post_link"
+},
+{
+    "id": "20240808",
+    "title": "[KK] Токи",
+    "img": "catalog/toka.webp",
+    "link": "https://boosty.to/syslickone/posts/9db9d6e6-4481-43b7-bc53-2b011bc90d95?share=post_link"
+}
   ]
 }

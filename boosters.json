@@ -1,0 +1,44 @@
+[
+    {
+        "tier": "🉐 \"Мастер шиноби\" 🉐",
+        "users": [
+                { "name": "LordLuckyBoom", "isNsfw": true },
+                { "name": "Daniel Krous", "isNsfw": true }
+        ]
+    },
+    {
+        "tier": "👑 \"Кагура\" 👑",
+        "users": [
+                { "name": "Ralliho", "isNsfw": true },
+                { "name": "Стас Б***в", "isNsfw": false }
+        ]
+    },
+    {
+        "tier": "⚔️ \"Ренегат\" ⚔️",
+        "users": [{ "name": "Funou", "isNsfw": true },
+                { "name": "blbl_invalid", "isNsfw": true },
+                { "name": "Terzatel87", "isNsfw": true },
+                { "name": "Ядовитый Страус", "isNsfw": true },
+                { "name": "illusion2", "isNsfw": true },
+                { "name": "Def Heller", "isNsfw": false }]
+    },
+    {
+        "tier": "🔰 \"Улучшенный новичок шиноби\" 🔰",
+        "users": [{ "name": "Mikami Teru", "isNsfw": true },
+                  { "name": "Шелест", "isNsfw": true },
+                  { "name": "Yariks", "isNsfw": true },
+                  { "name": "Newterror", "isNsfw": true },
+                  { "name": "Артём П***в", "isNsfw": true },
+                  { "name": "Anisy Shikos", "isNsfw": true },
+                  { "name": "MaximiljanVirs", "isNsfw": true }]
+    },
+    {
+        "tier": "🥋 \"Новичок Шиноби\" 🥋",
+        "users": [{ "name": "Идзуми Сэна", "isNsfw": true },
+                  { "name": "Безымянный Анон", "isNsfw": true },
+                  { "name": "GearsRock", "isNsfw": true },
+                  { "name": "KotTet", "isNsfw": true },
+                  { "name": "DrBull", "isNsfw": true },
+                  { "name": "MrBesp", "isNsfw": false }]
+    }
+]

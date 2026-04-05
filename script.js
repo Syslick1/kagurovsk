@@ -1,6 +1,9 @@
 // Глобальная переменная для базы данных
 let gamesDatabase = {};
 
+let currentPage = 1;      // Текущая страница
+const itemsPerPage = 20;  // Количество игр на одной странице
+
 // Запрещаем браузеру дергать скролл при обновлении страницы
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
@@ -28,7 +31,7 @@ let currentGallery = [];
 let currentGalleryIndex = 0;
 
 // Загружаем JSON файл с базой игр
-fetch('games.json')
+fetch('games.json?t=' + new Date().getTime())
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -37,12 +40,80 @@ fetch('games.json')
     })
     .then(data => {
         gamesDatabase = data;
+        updateCategoryBadges();
         renderFilteredGames('all'); // Рисуем каталог только после успешной загрузки базы
     })
     .catch(error => {
         console.error("Ошибка загрузки базы данных (возможно нужен локальный сервер):", error);
         mainGrid.innerHTML = '<p style="text-align:center; width: 100%;">Не удалось загрузить базу проектов. Если вы открыли файл напрямую, попробуйте использовать локальный сервер.</p>';
     });
+
+// Функция для раскраски тегов в квадратных скобках
+function colorizeTags(title) {
+    return title.replace(/\[(.*?)\]/gi, (match, innerText) => {
+        const lower = innerText.toLowerCase();
+        let color = "#ef4444"; // По умолчанию красный (для версий, патчей и т.д.)
+        
+        if (lower === "18+") {
+            color = "#ff43f2"; // Розовый
+        } else if (lower === "нейросетевой перевод" || lower === "ai") {
+            color = "#3b82f6"; // Синий
+        } else if (lower === "kk") {
+            color = "#f15f2c"; // Оранжевый (Boosty-цвет)
+        }
+        
+        return `<span style="color: ${color}; font-weight: bold;">${match}</span>`;
+    });
+}
+
+// --- НОВАЯ ФУНКЦИЯ ДЛЯ ПРОВЕРКИ НОВИНОК ---
+function isGameNew(game) {
+    const dateStr = game.id ? String(game.id) : "";
+    if (dateStr.length === 8) {
+        const year = parseInt(dateStr.substring(0, 4));
+        const month = parseInt(dateStr.substring(4, 6)) - 1; 
+        const day = parseInt(dateStr.substring(6, 8));
+        const gameDate = new Date(year, month, day);
+        const now = new Date();
+        const diffDays = (now - gameDate) / (1000 * 60 * 60 * 24);
+        return (diffDays >= -1 && diffDays <= 14);
+    }
+    return false;
+}
+
+// --- НОВАЯ ФУНКЦИЯ ДЛЯ ОБНОВЛЕНИЯ ТОЧЕК НА КНОПКАХ ---
+function updateCategoryBadges() {
+    const filterMap = {
+        'all': Object.keys(gamesDatabase).filter(k => k !== 'arts'),
+        'paid': ['short', 'rep', 'mid', 'big'],
+        'free': ['free', 'official'],
+        'senran': ['senran'],
+        'manga': ['manga'],
+        'arts': ['arts'],
+        'games': ['games']
+    };
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        const filterKey = btn.getAttribute('data-filter');
+        if (filterKey === 'sub') return; // Подписку пропускаем
+        
+        let hasNew = false;
+        const keysToCheck = filterMap[filterKey] || [];
+        
+        for (const key of keysToCheck) {
+            if (gamesDatabase[key] && gamesDatabase[key].some(isGameNew)) {
+                hasNew = true;
+                break;
+            }
+        }
+
+        if (hasNew) {
+            btn.classList.add('has-new');
+        } else {
+            btn.classList.remove('has-new');
+        }
+    });
+}
 
 
 function renderFilteredGames(filterKey, isInstant = false) {
@@ -85,6 +156,7 @@ function renderFilteredGames(filterKey, isInstant = false) {
             });
 
             setTimeout(() => { mainGrid.classList.add('visible-grid'); }, 10); 
+            document.getElementById('pagination-container').style.display = 'none'; // <--- Добавить это
             return; 
         } else {
             searchSortContainer.classList.remove('hidden');
@@ -108,7 +180,7 @@ function renderFilteredGames(filterKey, isInstant = false) {
         let gamesToRender = [];
 
         const categoryNames = {
-            "senran": "Senran Kagura", "manga": "Перевод манги", "arts": "Арт >>>", "free": "Перевод",
+            "senran": "Senran Kagura", "manga": "Перевод манги", "arts": "Арт >>>", "free": "Перевод", "official": "Официальный перевод",
             "short": "Новичок+ (100₽) >>>", "rep": "Ренегат (150₽) >>>", "mid": "Элита (325₽) >>>", "big": "Кагура (500₽) >>>",
             "asmr": "ASMR", "games": "Игра"
         };
@@ -120,7 +192,7 @@ function renderFilteredGames(filterKey, isInstant = false) {
 
         const defaultCategoryPrices = {
             "short": "50", "rep": "100", "mid": "150", "big": "325",
-            "senran": "free", "free": "free", "manga": "free", "arts": "free", "asmr": "free", "games": "free"
+            "senran": "free", "free": "free", "manga": "free", "official": "free", "arts": "free", "asmr": "free", "games": "free"
         };
 
         const processGame = (game, key) => {
@@ -132,9 +204,17 @@ function renderFilteredGames(filterKey, isInstant = false) {
         };
 
         if (filterKey === 'all') {
-            for (const key in gamesDatabase) { gamesDatabase[key].forEach(game => processGame(game, key)); }
+            for (const key in gamesDatabase) { 
+                if (key !== 'arts') { // Исключаем арты
+                    gamesDatabase[key].forEach(game => processGame(game, key)); 
+                }
+            }
         } else if (filterKey === 'paid') {
             ["short", "rep", "mid", "big"].forEach(key => {
+                if (gamesDatabase[key]) gamesDatabase[key].forEach(game => processGame(game, key));
+            });
+        } else if (filterKey === 'free') {
+            ["free", "official"].forEach(key => { // Включаем official в Бесплатные
                 if (gamesDatabase[key]) gamesDatabase[key].forEach(game => processGame(game, key));
             });
         } else {
@@ -175,75 +255,111 @@ function renderFilteredGames(filterKey, isInstant = false) {
         });
 
         // =====================================
-        // ОТРИСОВКА КАРТОЧЕК
+        // ПАГИНАЦИЯ (РАСЧЕТЫ) И ОТРИСОВКА
         // =====================================
-        if (gamesToRender.length === 0) {
-            mainGrid.innerHTML = '<p style="text-align:center; width: 100%; color: #888;">По вашему запросу ничего не найдено :(</p>';
+        const totalItems = gamesToRender.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        
+        // Защита, если текущая страница стала больше возможной (например, после фильтра)
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
         }
 
-        gamesToRender.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            card.style.border = `1px solid ${game._titleColor}`;
-            card.style.boxShadow = `0 0 10px 1px ${game._titleColor}`;
-            
-            const fastTravelCategories = ["arts", "short", "rep", "mid", "big"];
-            let categoryHTML = '';
+        // Вырезаем только те игры, которые нужны для текущей страницы
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedGames = gamesToRender.slice(startIndex, endIndex);
 
-            if (fastTravelCategories.includes(game._originalKey) && game.link && game.link !== "#") {
-                categoryHTML = `<div class="card-overlay hover-category clickable-category" onclick="event.stopPropagation(); window.open('${game.link}', '_blank');">${game._category}</div>`;
-            } else {
-                categoryHTML = `<div class="card-overlay hover-category">${game._category}</div>`;
-            }
-
-            // --- ДОБАВЛЕНО: Обработка даты и платформ ---
-            const dateStr = game.id ? String(game.id) : "";
-            let formattedDate = "";
-            if (dateStr.length === 8) {
-                // Перевод YYYYMMDD в DD.MM.YYYY
-                formattedDate = `${dateStr.substring(6,8)}.${dateStr.substring(4,6)}.${dateStr.substring(0,4)}`;
-            }
-
-            let platformsHTML = "";
-            if (game.platforms && game.platforms.length > 0) {
-                platformsHTML = game.platforms.map(p => {
-                    const icon = platformIcons[p.toLowerCase()];
-                    return icon ? icon : `<span class="plat-text">${p}</span>`;
-                }).join('');
-            }
-
-            // --- ОБНОВЛЕНО: Добавлен блок card-center-info ---
-            card.innerHTML = `
-                <div class="card-overlay hover-title" style="color: ${game._titleColor}">${game.title}</div>
-                <img src="${game.img}" alt="${game.title}" onerror="this.onerror=null; this.src='catalog/error.webp'">
+        if (totalItems === 0) {
+            mainGrid.innerHTML = '<p style="text-align:center; width: 100%; color: #888;">По вашему запросу ничего не найдено :с</p>';
+            renderPagination(0);
+        } else {
+            // ВАЖНО: теперь мы перебираем paginatedGames, а не gamesToRender
+            paginatedGames.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.style.border = `1px solid ${game._titleColor}`;
+                card.style.boxShadow = `0 0 10px 1px ${game._titleColor}`;
                 
-                <div class="card-center-info">
-                    ${formattedDate ? `<div class="card-date">${formattedDate}</div>` : ''}
-                    ${platformsHTML ? `<div class="card-platforms">${platformsHTML}</div>` : ''}
-                </div>
+                // --- НОВАЯ ЛОГИКА: Определяем прямую ссылку заранее ---
+                let directLink = null;
+                let linkCount = 0;
 
-                ${categoryHTML}
-                <h3>${game.title}</h3>
-            `;
+                // Проверяем массив links
+                if (game.links && game.links.length > 0) {
+                    linkCount = game.links.length;
+                    if (linkCount === 1) directLink = game.links[0].url;
+                } 
+                // Проверяем одиночный параметр link
+                else if (game.link && game.link !== "#") {
+                    linkCount = 1; 
+                    directLink = game.link;
+                }
+
+                const fastTravelCategories = ["arts", "short", "rep", "mid", "big"];
+                let categoryHTML = '';
+
+                // Теперь категория станет кнопкой, если найдена единственная ссылка (directLink)
+                if (fastTravelCategories.includes(game._originalKey) && directLink && directLink !== "#") {
+                    categoryHTML = `<div class="card-overlay hover-category clickable-category" onclick="event.stopPropagation(); window.open('${directLink}', '_blank');">${game._category}</div>`;
+                } else {
+                    categoryHTML = `<div class="card-overlay hover-category">${game._category}</div>`;
+                }
+                // -------------------------------------------------------
+
+                const dateStr = game.id ? String(game.id) : "";
+                let formattedDate = "";
+                let isNew = isGameNew(game); 
+
+                if (dateStr.length === 8) {
+                    formattedDate = `${dateStr.substring(6,8)}.${dateStr.substring(4,6)}.${dateStr.substring(0,4)}`;
+                    const year = parseInt(dateStr.substring(0, 4));
+                    const month = parseInt(dateStr.substring(4, 6)) - 1; 
+                    const day = parseInt(dateStr.substring(6, 8));
+                    const gameDate = new Date(year, month, day);
+                    const now = new Date();
+                    const diffDays = (now - gameDate) / (1000 * 60 * 60 * 24);
+                    if (diffDays >= -1 && diffDays <= 14) isNew = true;
+                }
+
+                let platformsHTML = "";
+                if (game.platforms && game.platforms.length > 0) {
+                    platformsHTML = game.platforms.map(p => {
+                        const icon = platformIcons[p.toLowerCase()];
+                        return icon ? icon : `<span class="plat-text">${p}</span>`;
+                    }).join('');
+                }
+
+                // Добавляем раскраску заголовка
+                const coloredTitle = colorizeTags(game.title);
+
+                card.innerHTML = `
+                    ${isNew ? '<div class="new-badge">Новинка!</div>' : ''}
+                    <div class="card-overlay hover-title" style="color: ${game._titleColor}">${coloredTitle}</div>
+                    <img src="${game.img}" alt="${game.title}" onerror="this.onerror=null; this.src='catalog/error.webp'">
+                    
+                    <div class="card-center-info">
+                        ${formattedDate ? `<div class="card-date">${formattedDate}</div>` : ''}
+                        ${platformsHTML ? `<div class="card-platforms">${platformsHTML}</div>` : ''}
+                    </div>
+
+                    ${categoryHTML}
+                    <h3>${coloredTitle}</h3>
+                `;
+
+                // Логика открытия модалки или перехода по ссылке для всей карточки
+                const hasNoContent = !game.desc && !game.authors && !game.install && (!game.screenshots || game.screenshots.length === 0);
+
+                if (hasNoContent && linkCount === 1 && directLink) {
+                    card.onclick = function() { window.open(directLink, '_blank'); };
+                } else {
+                    card.onclick = function() { openGameInfo(game); };
+                }
+                mainGrid.appendChild(card);
+            });
             
-            let directLink = null;
-            let linkCount = 0;
-            if (game.links && game.links.length > 0) {
-                linkCount = game.links.length;
-                if (linkCount === 1) directLink = game.links[0].url;
-            } else if (game.link && game.link !== "#") {
-                linkCount = 1; directLink = game.link;
-            }
-
-            const hasNoContent = !game.desc && !game.authors && !game.install && (!game.screenshots || game.screenshots.length === 0);
-
-            if (hasNoContent && linkCount === 1 && directLink) {
-                card.onclick = function() { window.open(directLink, '_blank'); };
-            } else {
-                card.onclick = function() { openGameInfo(game); };
-            }
-            mainGrid.appendChild(card);
-        });
+            renderPagination(totalPages); // Вызываем отрисовку кнопок страниц
+        }
 
         setTimeout(() => {
             mainGrid.classList.add('visible-grid');
@@ -252,14 +368,6 @@ function renderFilteredGames(filterKey, isInstant = false) {
     }, delay);
 }
 
-filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-        renderFilteredGames(this.getAttribute('data-filter'));
-    });
-});
-
 // Обработчики кнопок фильтров (этот блок у вас уже есть, просто убедитесь, что он выглядит так)
 filterButtons.forEach(button => {
     button.addEventListener('click', function() {
@@ -267,23 +375,90 @@ filterButtons.forEach(button => {
         this.classList.add('active');
         // При смене вкладки сбрасываем строку поиска, но оставляем выбранную сортировку
         searchInput.value = '';
+        currentPage = 1;
         renderFilteredGames(this.getAttribute('data-filter'));
     });
 });
 
 // НОВЫЕ ОБРАБОТЧИКИ ДЛЯ ПОИСКА И СОРТИРОВКИ
 searchInput.addEventListener('input', () => {
+    currentPage = 1;
     const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
     renderFilteredGames(activeFilter, true); // true = без задержки анимации
 });
 
 sortSelect.addEventListener('change', () => {
+    currentPage = 1;
     const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
     renderFilteredGames(activeFilter, true);
 });
 
+// Функция для плавной прокрутки к началу каталога при смене страницы
+function scrollToCatalog() {
+    const gridTop = document.getElementById('searchSortContainer').offsetTop;
+    window.scrollTo({ top: gridTop - 20, behavior: 'smooth' });
+}
+
+// Генерация кнопок пагинации
+function renderPagination(totalPages) {
+    const paginationContainer = document.getElementById('pagination-container');
+    if (!paginationContainer) return;
+    paginationContainer.innerHTML = '';
+
+    if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return; 
+    }
+    
+    paginationContainer.style.display = 'flex';
+
+    // Кнопка "Назад"
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'page-btn';
+    prevBtn.innerText = '◄';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            renderFilteredGames(activeFilter, true);
+            scrollToCatalog(); 
+        }
+    };
+    paginationContainer.appendChild(prevBtn);
+
+    // Кнопки страниц (1, 2, 3...)
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+        pageBtn.innerText = i;
+        pageBtn.onclick = () => {
+            currentPage = i;
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            renderFilteredGames(activeFilter, true);
+            scrollToCatalog();
+        };
+        paginationContainer.appendChild(pageBtn);
+    }
+
+    // Кнопка "Вперед"
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'page-btn';
+    nextBtn.innerText = '►';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            renderFilteredGames(activeFilter, true);
+            scrollToCatalog();
+        }
+    };
+    paginationContainer.appendChild(nextBtn);
+}
+
 function openGameInfo(game) {
-    document.getElementById("modalGameTitle").innerText = game.title;
+    document.getElementById("modalGameTitle").innerHTML = colorizeTags(game.title);
     const coverImg = document.getElementById("modalGameCover");
     coverImg.classList.add("img-loading"); // Вешаем заглушку
     coverImg.onload = function() {
@@ -298,13 +473,6 @@ function openGameInfo(game) {
         authorsBlock.style.display = "block"; 
         authorsBlock.classList.add("collapsed"); 
     } else { authorsBlock.style.display = "none"; }
-
-    const installBlock = document.getElementById("modalGameInstallBlock");
-    if (game.install) { 
-        document.getElementById("modalGameInstall").innerHTML = game.install; 
-        installBlock.style.display = "block"; 
-        installBlock.classList.add("collapsed"); 
-    } else { installBlock.style.display = "none"; }
 
     // Подготовка галереи (Обложка + Скриншоты)
     currentGallery = [game.img];
@@ -347,19 +515,62 @@ function openGameInfo(game) {
     } else { 
         screensContainer.innerHTML = '<p style="color:#777; font-size:0.9em;">Скриншоты отсутствуют.</p>'; 
     }
-    
+
+    const installBlock = document.getElementById("modalGameInstallBlock");
+    const installContent = document.getElementById("modalGameInstall");
     const linksContainer = document.getElementById("modalGameLinks");
-    linksContainer.innerHTML = ''; 
-    if (game.links && game.links.length > 0) {
-        game.links.forEach(link => {
-            const a = document.createElement('a'); a.href = link.url; a.target = "_blank"; a.className = "game-link-btn";
-            if (link.color) { a.style.background = link.color; }
-            let iconHtml = ''; if (link.icon) { iconHtml = `<img src="${link.icon}" alt="" onerror="this.style.display='none'">`; }
-            a.innerHTML = `${iconHtml} ${link.text}`; linksContainer.appendChild(a);
+    const versionsContainer = document.getElementById("modalGameVersions");
+
+    const renderInstallAndLinks = (installText, linksData, directLink) => {
+        if (installText) {
+            installContent.innerHTML = installText;
+            installBlock.style.display = "block";
+            installBlock.classList.add("collapsed");
+        } else {
+            installBlock.style.display = "none";
+        }
+
+        linksContainer.innerHTML = '';
+        if (linksData && linksData.length > 0) {
+            linksData.forEach(link => {
+                const a = document.createElement('a'); a.href = link.url; a.target = "_blank"; a.className = "game-link-btn";
+                if (link.color) { a.style.background = link.color; }
+                let iconHtml = ''; if (link.icon) { iconHtml = `<img src="${link.icon}" alt="" onerror="this.style.display='none'">`; }
+                a.innerHTML = `${iconHtml} ${link.text}`; linksContainer.appendChild(a);
+            });
+        } else if (directLink && directLink !== "#") {
+            const a = document.createElement('a'); a.href = directLink; a.target = "_blank"; a.className = "game-link-btn";
+            a.innerText = "Перейти к посту"; linksContainer.appendChild(a);
+        }
+    };
+
+    // Проверяем, есть ли у игры разные версии (ПК, Switch и т.д.)
+    if (game.versions && game.versions.length > 0) {
+        versionsContainer.style.display = "flex";
+        versionsContainer.innerHTML = ''; // Очищаем контейнер
+
+        game.versions.forEach((ver, index) => {
+            const btn = document.createElement('button');
+            btn.className = `version-btn ${index === 0 ? 'active' : ''}`;
+            btn.innerText = ver.name;
+            
+            btn.onclick = () => {
+                // Убираем подсветку со всех кнопок и подсвечиваем нажатую
+                document.querySelectorAll('.version-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Перерисовываем инструкцию и ссылки под выбранную версию
+                renderInstallAndLinks(ver.install, ver.links, ver.link);
+            };
+            versionsContainer.appendChild(btn);
         });
+
+        // При открытии окна показываем данные первой версии по умолчанию
+        renderInstallAndLinks(game.versions[0].install, game.versions[0].links, game.versions[0].link);
     } else {
-        const a = document.createElement('a'); a.href = game.link || "#"; a.target = "_blank"; a.className = "game-link-btn";
-        a.innerText = "Перейти к посту"; linksContainer.appendChild(a);
+        // Если версий нет — используем стандартное поведение
+        versionsContainer.style.display = "none";
+        renderInstallAndLinks(game.install, game.links, game.link);
     }
 
     screensContainer.scrollLeft = 0;
@@ -434,6 +645,82 @@ const closeDonateBtn = document.getElementById("closeDonateModal");
 btnDonate.onclick = function() { donateModal.classList.add("show"); }
 closeDonateBtn.onclick = function() { donateModal.classList.remove("show"); }
 closeGameBtn.onclick = function() { gameModal.classList.remove("show"); }
+
+// ==========================================
+// 📋 СПИСОК БУСТЕРОВ (ЗАГРУЗКА ИЗ JSON)
+// ==========================================
+const boostersModal = document.getElementById("boostersModal");
+const btnBoosters = document.getElementById("boostersBtn");
+const closeBoostersBtn = document.getElementById("closeBoostersModal");
+
+btnBoosters.onclick = function() {
+    // Скачиваем актуальный JSON прямо в момент нажатия (с защитой от кэша)
+    fetch('boosters.json?t=' + new Date().getTime())
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка сети');
+            return response.json();
+        })
+        .then(boostersData => {
+            const boostersListContainer = document.getElementById('boostersListContainer');
+            if (boostersListContainer) {
+                let html = '';
+                boostersData.forEach(tierObj => {
+                    let usersHtml = '<div style="text-align: center; color: #777; font-size: 0.9em; padding: 10px 0;">Пока никого нет :(</div>';
+                    
+                    if (tierObj.users && tierObj.users.length > 0) {
+                        usersHtml = tierObj.users.map(u => `
+                            <div class="booster-item ${u.isNsfw ? 'booster-nsfw' : 'booster-safe'}">
+                                <span>${u.name}</span>
+                                <span class="${u.isNsfw ? 'nsfw-tag' : 'safe-tag'}">${u.isNsfw ? '18+' : 'Safe'}</span>
+                            </div>
+                        `).join('');
+                    }
+
+                    html += `
+                        <div class="tier-section">
+                            <div class="tier-title">${tierObj.tier}</div>
+                            ${usersHtml}
+                        </div>
+                    `;
+                });
+                boostersListContainer.innerHTML = html;
+            }
+            boostersModal.classList.add("show");
+        })
+        .catch(error => {
+            console.error("Ошибка загрузки бустеров:", error);
+            const boostersListContainer = document.getElementById('boostersListContainer');
+            if (boostersListContainer) {
+                boostersListContainer.innerHTML = '<p style="text-align:center; color:#ef4444; padding: 20px;">Не удалось загрузить список. Попробуйте позже.</p>';
+            }
+            boostersModal.classList.add("show");
+        });
+}
+
+closeBoostersBtn.onclick = function() { boostersModal.classList.remove("show"); }
+
+// Обновляем общее закрытие по фону (ищем window.onclick = function(event) { ... })
+// Замени свой существующий window.onclick на этот:
+window.onclick = function(event) {
+    if (event.target == donateModal) { donateModal.classList.remove("show"); }
+    if (event.target == gameModal) { gameModal.classList.remove("show"); }
+    if (event.target == boostersModal) { boostersModal.classList.remove("show"); }
+}
+
+// Обновляем закрытие по Escape (ищем event.key === 'Escape')
+// Добавь туда закрытие boostersModal:
+document.addEventListener('keydown', function(event) {
+    if (lightboxModal.classList.contains('show')) {
+        if (event.key === 'ArrowLeft' || event.key === 'Left') prevScreen();
+        else if (event.key === 'ArrowRight' || event.key === 'Right') nextScreen();
+        else if (event.key === 'Escape' || event.key === 'Esc') closeLightboxModal();
+    }
+    else if (event.key === 'Escape' || event.key === 'Esc') {
+        donateModal.classList.remove("show");
+        gameModal.classList.remove("show");
+        boostersModal.classList.remove("show"); // <--- ДОБАВЛЕНО
+    }
+});
 
 // Общее закрытие по фону
 window.onclick = function(event) {
