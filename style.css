@@ -780,3 +780,97 @@ footer {
 
 .legend-safe { border-left: 3px solid #4ade80; padding-left: 8px; }
 .legend-nsfw { border-left: 3px solid #ff43f2; padding-left: 8px; color: #ffcccc; }
+
+/* ==========================================
+   📱 АДАПТАЦИЯ ДЛЯ СМАРТФОНОВ (MOBILE)
+   ========================================== */
+@media (max-width: 768px) {
+    /* Уменьшаем шапку и логотип */
+    header { padding: 20px 10px 10px 10px; }
+    .logo { width: 140px; height: 140px; border-radius: 25px; }
+    .about { font-size: 0.95em; }
+
+    /* Кнопки ссылок и доната делаем покомпактнее */
+    .links a, .donate-btn {
+        margin: 5px;
+        padding: 8px 12px;
+        font-size: 0.85em;
+    }
+
+    /* Фильтры: делаем горизонтальный скролл (свайп), чтобы они не занимали пол экрана в высоту */
+    .filters-container {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    }
+    /* Прячем визуальный скроллбар, но оставляем возможность свайпать */
+    .filters-container::-webkit-scrollbar { display: none; }
+    .filter-btn { white-space: nowrap; font-size: 0.9em; padding: 8px 15px; }
+
+    /* Поиск и сортировка: выстраиваем друг под другом на всю ширину */
+    .search-sort-container { flex-direction: column; gap: 10px; }
+    .search-input, .sort-select { min-width: 100%; width: 100%; font-size: 1em; }
+
+    /* Сетка: по умолчанию 240px это одна огромная карточка на весь экран телефона. 
+       Делаем 150px, чтобы влезало ровно 2 карточки в ряд */
+    .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+
+    /* Плашка "Новинка": жесткие пиксели (top: 290px) сломаются при изменении размера картинки. 
+       Привязываем её к низу (над заголовком) */
+    .new-badge {
+        top: auto;
+        bottom: 60px;
+        font-size: 1.1em;
+        padding: 4px 15px 4px 10px;
+    }
+
+    /* Модальное окно (Описание игры) */
+    .modal-content { padding: 20px 15px; }
+    .game-modal-body { flex-direction: column; gap: 15px; } /* Картинка сверху, текст снизу */
+    
+    .game-cover-container { flex: none; width: 100%; max-width: 250px; margin: 0 auto; }
+    .game-info { min-width: 100%; flex: auto; }
+    .game-description { font-size: 0.95em; }
+
+    /* Кнопки скачивания растягиваем на всю ширину для удобного нажатия пальцем */
+    .game-links { flex-direction: column; gap: 10px; }
+    .game-link-btn { width: 100%; box-sizing: border-box; }
+
+    /* Стрелки скролла скриншотов на телефоне не нужны, там работают родные свайпы пальцем */
+    .scroll-btn { display: none !important; }
+    
+    /* Доска почета */
+    .boosters-modal-content { max-height: 80vh; }
+    .booster-item { font-size: 0.95em; }
+}
+
+/* ==========================================
+   🎨 КАСТОМНЫЙ СКРОЛЛБАР (ДЛЯ ВСЕГО САЙТА)
+   ========================================== */
+/* Для браузеров Chrome, Safari, Edge, Яндекс.Браузер */
+::-webkit-scrollbar {
+    width: 8px;  /* Ширина вертикального скролла */
+    height: 8px; /* Высота горизонтального скролла */
+}
+
+::-webkit-scrollbar-track {
+    background: #1a0b1e; /* Темный фон дорожки (как у фона сайта) */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffcc00; /* Цвет самого ползунка (фиолетовый из палитры) */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #f15f2c; /* При наведении ползунок становится фирменным оранжевым */
+}
+
+/* Для браузера Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #ffcc00 #1a0b1e;
+}
