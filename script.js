@@ -30,6 +30,15 @@ const scrollRightBtn = document.getElementById('scrollRightBtn');
 let currentGallery = [];
 let currentGalleryIndex = 0;
 
+// Функция для создания чистой ссылки из названия игры
+function slugify(text) {
+    let str = text.toLowerCase();
+    str = str.replace(/\[.*?\]\s*/g, ''); // Удаляем теги
+    str = str.replace(/[^a-z0-9а-яё\- ]/g, ''); // Удаляем спецсимволы (оставляем буквы, цифры, дефис)
+    str = str.trim().replace(/\s+/g, '-'); // Заменяем пробелы на дефисы
+    return str;
+}
+
 // Загружаем JSON файл с базой игр
 fetch('games.json?t=' + new Date().getTime())
     .then(response => {
@@ -42,6 +51,7 @@ fetch('games.json?t=' + new Date().getTime())
         gamesDatabase = data;
         updateCategoryBadges();
         renderFilteredGames('all'); // Рисуем каталог только после успешной загрузки базы
+        checkUrlForDirectLink();
     })
     .catch(error => {
         console.error("Ошибка загрузки базы данных (возможно нужен локальный сервер):", error);
@@ -276,9 +286,13 @@ function renderFilteredGames(filterKey, isInstant = false) {
         } else {
             // ВАЖНО: теперь мы перебираем paginatedGames, а не gamesToRender
             paginatedGames.forEach(game => {
-                const card = document.createElement('div');
-                // Автоматически вешаем базовый класс градиента и класс цены (например, tier-150 или tier-GOAT)
+                const card = document.createElement('a'); // Теперь это настоящая ссылка!
+                const slug = slugify(game.title);
+                card.href = `?project=${slug}`; // Гугл увидит этот путь и пойдет по нему
                 card.className = `game-card animated-gradient-card tier-${game._priceStr}`;
+                // Чтобы браузер не красил текст ссылки в синий цвет по умолчанию:
+                card.style.textDecoration = "none";
+                card.style.color = "inherit";
                 
                 // Если проект бесплатный — вешаем класс с градиентом
                 if (game._priceStr === "free") {
@@ -377,11 +391,16 @@ function renderFilteredGames(filterKey, isInstant = false) {
 
                 // Логика открытия модалки или перехода по ссылке
                 if (isDirectLink) {
-                    card.onclick = function() { window.open(directLink, '_blank'); };
+                card.onclick = function(e) { 
+                    e.preventDefault(); // Блокируем смену URL в текущей вкладке
+                    window.open(directLink, '_blank'); // Открываем ссылку в новой
+                };
                 } else {
-                    card.onclick = function() { openGameInfo(game); };
-                }
-                
+                     card.onclick = function(e) { 
+                        e.preventDefault(); // Запрещаем браузеру переходить по ссылке
+                        openGameInfo(game); // Открываем твою модалку
+                };
+    }                                
                 mainGrid.appendChild(card);
             });
             
@@ -485,6 +504,8 @@ function renderPagination(totalPages) {
 }
 
 function openGameInfo(game) {
+    const slug = slugify(game.title);
+    window.history.pushState({ modalOpen: true }, '', `?project=${slug}`);
     document.getElementById("modalGameTitle").innerHTML = colorizeTags(game.title);
     const coverImg = document.getElementById("modalGameCover");
     coverImg.classList.add("img-loading"); // Вешаем заглушку
@@ -604,6 +625,12 @@ function openGameInfo(game) {
     gameModal.classList.add("show");
 }
 
+function closeGameModal() {
+    gameModal.classList.remove("show");
+    // Возвращаем оригинальный URL без параметров
+    window.history.replaceState(null, null, window.location.pathname);
+}
+
 // ==========================================
 // 🖼️ ЛОГИКА ГАЛЕРЕИ (LIGHTBOX)
 // ==========================================
@@ -671,7 +698,7 @@ const closeDonateBtn = document.getElementById("closeDonateModal");
 
 btnDonate.onclick = function() { donateModal.classList.add("show"); }
 closeDonateBtn.onclick = function() { donateModal.classList.remove("show"); }
-closeGameBtn.onclick = function() { gameModal.classList.remove("show"); }
+closeGameBtn.onclick = function() { closeGameModal(); }
 
 // ==========================================
 // 📋 СПИСОК БУСТЕРОВ (ЗАГРУЗКА ИЗ JSON)
@@ -730,7 +757,7 @@ closeBoostersBtn.onclick = function() { boostersModal.classList.remove("show"); 
 // Замени свой существующий window.onclick на этот:
 window.onclick = function(event) {
     if (event.target == donateModal) { donateModal.classList.remove("show"); }
-    if (event.target == gameModal) { gameModal.classList.remove("show"); }
+    if (event.target == gameModal) { closeGameModal(); }
     if (event.target == boostersModal) { boostersModal.classList.remove("show"); }
 }
 
@@ -744,39 +771,33 @@ document.addEventListener('keydown', function(event) {
     }
     else if (event.key === 'Escape' || event.key === 'Esc') {
         donateModal.classList.remove("show");
-        gameModal.classList.remove("show");
-        boostersModal.classList.remove("show"); // <--- ДОБАВЛЕНО
+        boostersModal.classList.remove("show");
+        closeGameModal(); // <--- ДОБАВЛЕНО
     }
 });
 
-// Общее закрытие по фону
-window.onclick = function(event) {
-    if (event.target == donateModal) { donateModal.classList.remove("show"); }
-    if (event.target == gameModal) { gameModal.classList.remove("show"); }
-}
+function checkUrlForDirectLink() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectSlug = urlParams.get('project');
 
-// Обработка клавиатуры
-document.addEventListener('keydown', function(event) {
-    if (lightboxModal.classList.contains('show')) {
-        if (event.key === 'ArrowLeft' || event.key === 'Left') {
-            prevScreen();
-        } else if (event.key === 'ArrowRight' || event.key === 'Right') {
-            nextScreen();
-        } else if (event.key === 'Escape' || event.key === 'Esc') {
-            closeLightboxModal();
+    if (projectSlug) {
+        // Ищем игру по всем категориям
+        for (const category in gamesDatabase) {
+            if (category === 'arts' || category === 'games') continue; // Пропускаем то, что не нужно
+            
+            const gameList = gamesDatabase[category];
+            if (gameList) {
+                const game = gameList.find(g => slugify(g.title) === projectSlug);
+                if (game) {
+                    // Даем небольшую задержку, чтобы интерфейс успел отрисоваться
+                    setTimeout(() => { openGameInfo(game); }, 100);
+                    break;
+                }
+            }
         }
     }
-    else if (event.key === 'Escape' || event.key === 'Esc') {
-        donateModal.classList.remove("show");
-        gameModal.classList.remove("show");
-    }
-});
+}
 
-// Кнопка наверх
-const topBtn = document.getElementById("scrollToTopBtn");
-window.onscroll = function() {
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { topBtn.classList.add("show"); } else { topBtn.classList.remove("show"); }
-};
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 // ==========================================
@@ -811,3 +832,19 @@ function handleSwipe() {
         prevScreen();
     }
 }
+
+// ==========================================
+// 🔙 ОБРАБОТКА КНОПОК БРАУЗЕРА "НАЗАД/ВПЕРЕД"
+// ==========================================
+window.addEventListener('popstate', function(event) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectSlug = urlParams.get('project');
+
+    if (!projectSlug) {
+        // Если параметра в ссылке нет (вернулись на главную), просто скрываем окно
+        gameModal.classList.remove("show");
+    } else {
+        // Если перешли по истории на другую игру — открываем её
+        checkUrlForDirectLink();
+    }
+});
