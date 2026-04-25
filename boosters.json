@@ -14,13 +14,18 @@
         ]
     },
     {
+        "tier": "✨ \"Элитный шиноби\" ✨",
+        "users": [{ "name": "chattering radio", "isNsfw": true }
+        ]
+    },
+    {
         "tier": "⚔️ \"Ренегат\" ⚔️",
         "users": [{ "name": "Funou", "isNsfw": true },
                 { "name": "blbl_invalid", "isNsfw": true },
                 { "name": "Terzatel87", "isNsfw": true },
                 { "name": "Ядовитый Страус", "isNsfw": true },
                 { "name": "illusion2", "isNsfw": true },
-                { "name": "Def Heller", "isNsfw": false }]
+                { "name": "NiaMia", "isNsfw": false }]
     },
     {
         "tier": "🔰 \"Улучшенный новичок шиноби\" 🔰",
@@ -39,6 +44,7 @@
                   { "name": "GearsRock", "isNsfw": true },
                   { "name": "KotTet", "isNsfw": true },
                   { "name": "DrBull", "isNsfw": true },
-                  { "name": "MrBesp", "isNsfw": false }]
+                  { "name": "MrBesp", "isNsfw": false },
+                  { "name": "Dagotik", "isNsfw": true }]
     }
 ]
