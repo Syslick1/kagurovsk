@@ -270,7 +270,31 @@
     ]
 }
   ],
-  "mid": [],
+  "mid": [
+    {
+    "id": "20260517",
+    "platforms": [
+        "windows"
+    ],
+    "title": "Third Crisis Neon Nights",
+    "img": "catalog/TCNN.webp",
+    "desc": "Эротическая сюжетная 2D-RPG, действие которой разворачивается в неоновом мегаполисе порока и страсти. Принимайте судьбоносные решения, участвуйте в интерактивных испытаниях и раскрывайте тайны злачных районов. Поддайтесь искушению или боритесь за свою чистоту. Сможете ли вы выжить в «Неоновых ночах»?",
+    "authors": "Перевод: Syslick",
+    "screenshots": [
+        "screenshot/TCNN1.webp",
+        "screenshot/TCNN2.webp",
+        "screenshot/TCNN3.webp",
+        "screenshot/TCNN4.webp"
+    ],
+    "links": [
+        {
+            "text": "Перейти к посту",
+            "url": "https://boosty.to/syslickone/posts/d937db52-9c44-4733-b6ff-65ddb233fc16?share=post_link",
+            "icon": "catalog/boosty_icon.webp"
+        }
+    ]
+}
+],
   "big": [],
   "manga": [
     {
