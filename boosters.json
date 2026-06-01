@@ -10,12 +10,19 @@
         "tier": "👑 \"Кагура\" 👑",
         "users": [
                 { "name": "Ralliho", "isNsfw": true },
+                { "name": "Чёрный Великан", "isNsfw": true },
                 { "name": "Стас Б***в", "isNsfw": false }
         ]
     },
     {
         "tier": "✨ \"Элитный шиноби\" ✨",
-        "users": [{ "name": "chattering radio", "isNsfw": true }
+        "users": [{ "name": "chattering radio", "isNsfw": true },
+                  { "name": "Kurt Cobain", "isNsfw": true },
+                  { "name": "Владислав Д***н", "isNsfw": true },
+                  { "name": "𝕋!Я!Н!𝕂!𝔸", "isNsfw": true },
+                  { "name": "Naif0.9", "isNsfw": true },
+                  { "name": "kurouchi", "isNsfw": true },
+                  { "name": "Бонаква", "isNsfw": true }
         ]
     },
     {
